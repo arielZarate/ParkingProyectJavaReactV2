@@ -1,0 +1,35 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+  /*font-satoshi*/
+    @apply relative z-1 min-h-screen bg-whiten font-satoshi  text-base md:text-sm font-thin text-body;
+    height: 100%; /* Asegúrate de que el body ocupe toda la altura de la pantalla */
+    margin: 0; /* Elimina márgenes predeterminados */
+    padding: 0; /* Elimina rellenos predeterminados */
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+ 
+ 
+
+}
+
