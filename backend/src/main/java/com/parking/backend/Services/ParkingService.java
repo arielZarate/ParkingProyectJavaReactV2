@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,16 +39,8 @@ public class ParkingService {
 
 
 
-   @Transactional
-    public List<Parking> findAllParking(){
-        try{
-            return this.parkingRepository.findAll();
-        }catch (CustomException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+
+
 
 
 
@@ -61,6 +56,29 @@ public class ParkingService {
         }
     }
 
+
+   @Transactional
+    public List<Parking> findAllParking(){
+        try{
+            return this.parkingRepository.findAll();
+        }catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    
+    // Método para encontrar parkings por estado
+    @Transactional
+    public List<Parking> findParkingByStatus(STATUS_PARKING status) {
+        try {
+            return parkingRepository.findByStatus(status);
+        } catch (Exception e) {
+            throw new CustomException("Error al buscar parkings por estado: " + e.getMessage());
+        }
+
+    }
 
     ///me devuelve todos los parking por la licencia
     @Transactional
@@ -248,17 +266,50 @@ public class ParkingService {
 
 
 
-    // Método para encontrar parkings por estado
-    @Transactional
-    public List<Parking> findParkingByStatus(STATUS_PARKING status) {
-        try {
-            return parkingRepository.findByStatus(status);
-        } catch (Exception e) {
-            throw new CustomException("Error al buscar parkings por estado: " + e.getMessage());
-        }
 
+
+//====================METODOS PAGEABLE============================
+
+
+@Transactional
+public Sort convertedSorted(String sort)
+{
+    //este metodo recibe un string en este formato "id,desc" 
+    
+    String sortParams[]=sort.split(",");//separa el struing  por la , y lo pasa a array
+    String sortField = sortParams[0];
+    String sortDirection = sortParams[1];
+
+    //========ordenamos======= 
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+    Sort sortingObj=Sort.by(direction, sortField);
+
+    return sortingObj;
+}
+
+@Transactional
+public Page<Parking> findAllParking(int page, int size,String sort){
+    
+    try {
+           //este metodo separa el string en 2 parametros necesarios direcction y tipo de sorting
+         Sort sortingObj=convertedSorted(sort);
+        //=========================
+         PageRequest pageable=PageRequest.of(page, size,sortingObj);
+     
+    return parkingRepository.findAll(pageable);
+    } catch (CustomException e) {
+        throw e;
     }
+    catch (Exception e) {
+        throw new RuntimeException(e.getMessage());
+    }
+}
+ 
 
+
+
+
+//===============================================================
 
 
     //  throw new CustomException("No se encontró el parking con ID: " + id);

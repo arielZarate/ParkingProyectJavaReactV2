@@ -1,6 +1,6 @@
 // services/parkingService.ts
 
-import {axios,AxiosError} from "@/config/axiosConfig";
+import { axios } from "@/config/axiosConfig";
 import { ISaveParkingProp } from "@/interfaces/ISaveParkingProp";
 import { Parking } from "@/types/parking";
 import handleServiceError from "@/utils/handleServiceError";
@@ -19,6 +19,41 @@ export const fetchParkings = async (): Promise<Parking[]> => {
    return [];
   }
 };
+
+
+
+interface Page{
+  page:number;
+  size:number;
+  sort:string;
+
+}
+
+
+                                                                     //ejemplo
+export const fetchParkingsPageable=async(page:number,size:number,sort:"id,asc"):Promise<Page<Parking[]>>=>{
+
+  try {
+    const response = await axios.get<Page<Parking>>(`/api/parking/pageable`, {
+      params: {
+        page,
+        size,
+        sort
+      }
+    });
+    return response.data;
+  } catch (error) {
+    handleServiceError(error);
+
+    return{
+      content:[],
+      totalPages:0,
+      totalElements:0
+    }
+    
+  }
+
+}
 
 //===========================================
 //debo importar el id del empleado cuando este logueado

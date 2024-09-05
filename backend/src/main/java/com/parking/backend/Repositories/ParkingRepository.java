@@ -3,6 +3,8 @@ package com.parking.backend.Repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,10 +17,6 @@ public interface ParkingRepository extends JpaRepository<Parking,Long > {
 
     Optional<Parking> findByVehicleId(Long vehicleId);
 
-
-    // Método para encontrar un parking en progreso
-   
-
     /**
        METODO VIEJO QUE TRAIA UNA LISTA 
     
@@ -27,13 +25,27 @@ public interface ParkingRepository extends JpaRepository<Parking,Long > {
  
      */
 
-      // Page<Parking> findByVehicleLicencePlate(String licencePlate,Pageable pageable);
-
-
-
-     List<Parking> findByVehicleLicencePlate(String licencePlate);
+    List<Parking> findByVehicleLicencePlate(String licencePlate);
 
     List<Parking> findByStatus(STATUS_PARKING status);
+
+
+    //Paginado
+
+      // Page<Parking> findByVehicleLicencePlate(String licencePlate,Pageable pageable);
+
+      
+      //metodo para paginar todos los parkings
+      @SuppressWarnings("null")
+       Page<Parking> findAll(Pageable pageable);
+
+
+       //metodo para paginar los aprkings por la matricula 
+       Page<Parking> findByVehicleLicencePlate(String licencePlate,Pageable pageable);
+      
+       //metodo para paginar los parkings por status
+       Page<Parking>findByStatus(STATUS_PARKING status,Pageable pageable);
+      
 }
 
 
