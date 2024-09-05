@@ -1,9 +1,10 @@
 import STATUS_VEHICLE from "@/enum/statusVehicle";
 import TYPE_VEHICLE from "@/enum/typeVehicle";
-import { Parking } from "@/types/parking";
+import { IPage, IParking } from "@/interfaces/IParking";
 
 export interface ParkingContextType {
-  parkings: Parking[];
+  parkings: IPage<IParking>; //se debio cambiar
+  //parkings:IParking[]
   loading: boolean;
   typeVehicle: TYPE_VEHICLE;
   status: STATUS_VEHICLE;

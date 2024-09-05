@@ -2,44 +2,51 @@
 
 import STATUS_VEHICLE from "@/enum/statusVehicle";
 import TYPE_VEHICLE from "@/enum/typeVehicle";
+import { IPage, IParking } from "@/interfaces/IParking";
 import {
-  fetchParkings,
-  getParkingByLicencePlate,
+  fetchParkingsPageable,
+  getParkingByLicencePlate
 } from "@/services/parkingService";
-import { Parking } from "@/types/parking";
 import { useEffect, useState } from "react";
 
 //TODO: hook para descentralizar la logica del Provider de parking
 
 const HookParkingProvider = () => {
-  const [allparkings, setAllParkings] = useState<Parking[]>([]);
+  const [allparkings, setAllParkings] = useState<IPage<IParking> | null>(null);
   //uno esw una copia del otro que sirve para restaurar los valores una vez que se busco todo
-  const [parkings, setParkings] = useState<Parking[]>([]);
+  const [parkings, setParkings] = useState<IPage<IParking> | null>(null);
   const [loading, setLoading] = useState(false);
   const [typeVehicle, setTypeVehicle] = useState<TYPE_VEHICLE>(
     TYPE_VEHICLE.DEFAULT,
   );
   const [status, setStatus] = useState<STATUS_VEHICLE>(STATUS_VEHICLE.DEFAULT);
 
+
+
+
+
   //===========FILTER==============================
   //LO UNICO RARO ES EL FILTER DIGAMOS
 
   const filtered = () => {
-    const filteredParking = allparkings?.filter((f) => {
+    const filteredParking = allparkings?.content.filter((f) => {
       return (
         (typeVehicle === TYPE_VEHICLE.DEFAULT ||
           f.vehicle.typeVehicle === typeVehicle) &&
         (status === STATUS_VEHICLE.DEFAULT || f.status === status)
       );
     });
-    return filteredParking;
+    return filteredParking ?? [];
   };
 
   useEffect(() => {
     // Aplica los filtros solo si los parkings ya fueron cargados
-    if (allparkings.length > 0) {
-      setParkings(filtered());
-    }
+    if (allparkings?.content) {
+      setParkings({
+          ...allparkings,
+          content:filtered(),
+        });
+  }
   }, [typeVehicle, status, allparkings]);
 
   //=====================================================
@@ -54,7 +61,7 @@ const HookParkingProvider = () => {
   const loadParkings = async () => {
     setLoading(true);
     try {
-      const result = await fetchParkings();
+      const result:IPage<IParking> = await fetchParkingsPageable(0,10,"id,desc");
       setParkings(result);
       setAllParkings(result);
     } catch (error) {
@@ -72,7 +79,7 @@ const HookParkingProvider = () => {
       const parkingFound = await getParkingByLicencePlate(licencePlate);
       //setLoading(true);
       //console.log(parkingFound)
-      setParkings(parkingFound);
+     // setParkings(parkingFound);
       // setLoading(false);
     } catch (error) {
       console.error("Error searching parking by licence plate", error);

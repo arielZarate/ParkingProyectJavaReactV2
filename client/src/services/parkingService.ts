@@ -1,14 +1,14 @@
 // services/parkingService.ts
 
 import { axios } from "@/config/axiosConfig";
+import { IPage, IParking } from "@/interfaces/IParking";
 import { ISaveParkingProp } from "@/interfaces/ISaveParkingProp";
-import { Parking } from "@/types/parking";
 import handleServiceError from "@/utils/handleServiceError";
 
 
-export const fetchParkings = async (): Promise<Parking[]> => {
+export const fetchParkings = async (): Promise<IParking[]> => {
   try {
-    const response = await axios.get<Parking[]>("/api/parking");
+    const response = await axios.get<IParking[]>("/api/parking");
     const data = response.data;
     //console.log("datos", JSON.stringify(data));
     return data;
@@ -22,19 +22,34 @@ export const fetchParkings = async (): Promise<Parking[]> => {
 
 
 
-interface Page{
-  page:number;
-  size:number;
-  sort:string;
+//==============en caso de no tener nada el backend retorno ===========================
+const returnPage={
+  content: [],
+  pageable: {
+    pageNumber: 0,
+    pageSize: 0,
+    sort: { sorted: false, unsorted: true, empty: true },
+    offset: 0,
+    paged: true,
+    unpaged: false,
+  },
+  totalPages: 0,
+  totalElements: 0,
+  size: 0,
+  number: 0,
+  sort: { sorted: false, unsorted: true, empty: true },
+  first: true,
+  last: false,
+  numberOfElements: 0,
+  empty: true,
 
 }
 
-
                                                                      //ejemplo
-export const fetchParkingsPageable=async(page:number,size:number,sort:"id,asc"):Promise<Page<Parking[]>>=>{
+export const fetchParkingsPageable=async(page:number,size:number,sort:string):Promise<IPage<IParking>>=>{
 
   try {
-    const response = await axios.get<Page<Parking>>(`/api/parking/pageable`, {
+    const response = await axios.get<IPage<IParking>>(`/api/parking/pageable`, {
       params: {
         page,
         size,
@@ -43,16 +58,31 @@ export const fetchParkingsPageable=async(page:number,size:number,sort:"id,asc"):
     });
     return response.data;
   } catch (error) {
+    console.error(error)
     handleServiceError(error);
 
     return{
-      content:[],
-      totalPages:0,
-      totalElements:0
+      content: [],
+      pageable: {
+        pageNumber: 0,
+        pageSize: 0,
+        sort: { sorted: false, unsorted: true, empty: true },
+        offset: 0,
+        paged: true,
+        unpaged: false,
+      },
+      totalPages: 0,
+      totalElements: 0,
+      size: 0,
+      number: 0,
+      sort: { sorted: false, unsorted: true, empty: true },
+      first: true,
+      last: false,
+      numberOfElements: 0,
+      empty: true,
     }
     
   }
-
 }
 
 //===========================================
@@ -61,9 +91,9 @@ const employeeId=1;
 //========================================
 
 
-export const postParkings = async (parking:ISaveParkingProp): Promise<Parking | undefined> => {
+export const postParkings = async (parking:ISaveParkingProp): Promise<IParking | undefined> => {
   try {
-    const response = await axios.post<Parking>(`/api/parking/save/${employeeId}`, parking);
+    const response = await axios.post<IParking>(`/api/parking/save/${employeeId}`, parking);
     //console.log("response\n",response)
     return response.data;
   } catch (error) {
@@ -74,9 +104,9 @@ export const postParkings = async (parking:ISaveParkingProp): Promise<Parking | 
 
 
 
-export const postFinalizeParkings = async (licencePlate:string): Promise<Parking | undefined> => {
+export const postFinalizeParkings = async (licencePlate:string): Promise<IParking | undefined> => {
   try {
-    const response = await axios.post<Parking>(`/api/parking/finalize/${licencePlate}`);
+    const response = await axios.post<IParking>(`/api/parking/finalize/${licencePlate}`);
     //console.log("response\n",response)
     return response.data;
   } catch (error) {
@@ -86,9 +116,9 @@ export const postFinalizeParkings = async (licencePlate:string): Promise<Parking
 
 
 
-export const getParkingByLicencePlate=async(licencePlate:string):Promise<Parking[]> =>{
+export const getParkingByLicencePlate=async(licencePlate:string):Promise<IParking[]> =>{
   try {
-    const response = await axios.get<Parking[]>(`/api/parking/licencePlate/${licencePlate}`);
+    const response = await axios.get<IParking[]>(`/api/parking/licencePlate/${licencePlate}`);
     //console.log("response\n",response.data)
     return response.data;
   } catch (error) {

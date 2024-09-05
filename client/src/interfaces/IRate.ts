@@ -1,6 +1,6 @@
 // types/parkingTypes.ts
 
-export type Rate = {
+export interface IRate {
   id: number;
   typeVehicle: string;
   costPerHour: number;

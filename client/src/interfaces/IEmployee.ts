@@ -1,4 +1,4 @@
-export type Employee = {
+export interface IEmployee {
   id: number;
   fullName: string;
   dni: string;
