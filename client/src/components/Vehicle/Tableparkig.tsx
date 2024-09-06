@@ -5,6 +5,7 @@ import TYPE_VEHICLE from "@/enum/typeVehicle";
 import { Suspense } from "react";
 import Loader from "../common/Loader";
 import SearchBar from "../Filter/SearBar";
+import SelectSort from "../Filter/SelectSort";
 import SelectStatusVehicle from "../Filter/SelectStatusVehicle";
 import SelectTypeVehicle from "../Filter/SelectTypeVehicle";
 //import useToast from "../ToastMessage/useToast";
@@ -30,14 +31,14 @@ const TableParking: React.FC = () => {
             <SearchBar />
             <SelectTypeVehicle />
             <SelectStatusVehicle />
-
+            <SelectSort/>
             <div className="relative mb-12 pb-7">
               <button
-                className=" absolute w-32  translate-x-0 appearance-none rounded-md border border-stroke bg-gray px-1  py-3 font-medium text-primary outline-none transition hover:border-primary dark:border-form-strokedark  dark:bg-slate-500 dark:bg-transparent dark:text-white dark:hover:border-primary 
-             dark:focus:border-primary md:top-6 md:w-32 md:translate-x-0 lg:translate-x-0 xl:translate-x-10 "
+                className=" absolute w-48 translate-x-0 appearance-none rounded-md border border-stroke bg-gray  h-12.5 py-3 font-medium text-primary outline-none transition hover:border-primary dark:border-form-strokedark  dark:bg-slate-500 dark:bg-transparent dark:text-white dark:hover:border-primary 
+             dark:focus:border-primary md:top-6 md:w-32 md:translate-x-0 lg:translate-x-0 xl:translate-x-0 "
                 onClick={resetFilter}
               >
-                Borrar filtros
+                Borrar Filtro
               </button>
             </div>
           </div>

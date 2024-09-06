@@ -1,13 +1,12 @@
-import React, {
+import {
   ChangeEvent,
   FormEvent,
-  FormEventHandler,
-  useState,
+  useState
 } from "react";
 import { FaSearch } from "react-icons/fa";
 //import { useForm } from "react-hook-form";
-import handleServiceError from "@/utils/handleServiceError";
 import useHookParkingContext from "@/context/parking/useHookParkingContext";
+import handleServiceError from "@/utils/handleServiceError";
 import useToast from "../ToastMessage/useToast";
 
 type Props = {};
@@ -73,7 +72,7 @@ const SearchBar = (props: Props) => {
         <label className="mb-1 block text-sm font-medium text-body dark:text-white">
           Busqueda por matricula
         </label>
-        <div className="flex w-96 rounded-lg border border-stroke bg-transparent outline-none  transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input   dark:text-white dark:hover:border-primary  md:w-96">
+        <div className="flex w-96 rounded-lg border border-stroke bg-transparent outline-none  transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input   dark:text-white dark:hover:border-primary  md:w-72">
           <button
             type="submit"
             className=" rounded-lg border border-stroke bg-transparent px-3 outline-none transition  focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white   md:px-3 md:py-0 "
