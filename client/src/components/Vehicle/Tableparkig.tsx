@@ -1,6 +1,7 @@
 "use client";
 import useHookParkingContext from "@/context/parking/useHookParkingContext";
 import STATUS_VEHICLE from "@/enum/statusVehicle";
+import TYPE_VEHICLE from "@/enum/typeVehicle";
 import { Suspense } from "react";
 import Loader from "../common/Loader";
 import SearchBar from "../Filter/SearBar";
@@ -87,7 +88,11 @@ const TableParking: React.FC = () => {
                     </td>
                     <td className="border-b border-[#eee] px-4 py-4 pl-8  dark:border-strokedark xl:pl-11">
                       <p className="text-black dark:text-white">
-                        {parking.vehicle.typeVehicle}
+                        {parking.vehicle.typeVehicle===TYPE_VEHICLE.BICYCLE?"BICI": 
+                        parking.vehicle.typeVehicle===TYPE_VEHICLE.CAR?"AUTO":
+                        parking.vehicle.typeVehicle===TYPE_VEHICLE.MOTORCYCLE?"MOTO":
+                        parking.vehicle.typeVehicle===TYPE_VEHICLE.TRUCK?"UTILITARIO":
+                        TYPE_VEHICLE.DEFAULT}
                       </p>
                     </td>
 
