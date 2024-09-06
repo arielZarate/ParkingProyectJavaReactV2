@@ -45,6 +45,27 @@ public interface ParkingRepository extends JpaRepository<Parking,Long > {
       
        //metodo para paginar los parkings por status
        Page<Parking>findByStatus(STATUS_PARKING status,Pageable pageable);
+
+
+       /**
+        * 
+Page<Parking> findByStatusAndTypeVehicle(String status, String typeVehicle, Pageable pageable);
+
+También puedes agregar lógica para hacer que los parámetros sean opcionales:
+
+
+
+
+@Query("SELECT p FROM Parking p WHERE " +
+       "(:status IS NULL OR p.status = :status) AND " +
+       "(:typeVehicle IS NULL OR p.typeVehicle = :typeVehicle)")
+Page<Parking> findWithFilters(@Param("status") String status, 
+                              @Param("typeVehicle") String typeVehicle, 
+                              Pageable pageable);
+
+
+
+        */
       
 }
 

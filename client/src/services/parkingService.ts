@@ -54,6 +54,13 @@ export const fetchParkingsPageable=async(page:number,size:number,sort:string):Pr
         page,
         size,
         sort
+
+        /**
+         * 
+         *  status: status !== STATUS_VEHICLE.DEFAULT ? status : undefined,
+        typeVehicle: typeVehicle !== TYPE_VEHICLE.DEFAULT ? typeVehicle : undefined,
+         * 
+         */
       }
     });
     return response.data;

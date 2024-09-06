@@ -86,7 +86,16 @@ const HookParkingProvider = () => {
     const loadParkings = async (ORDER:SORT) => {
       setLoading(true);
       try {
-        const result:IPage<IParking> = await fetchParkingsPageable(paginationConfig.defaultPage,paginationConfig.defaultSize,`id,${ORDER}`);
+        const result:IPage<IParking> = await fetchParkingsPageable(paginationConfig.defaultPage,paginationConfig.defaultSize,`id,${ORDER}`,
+
+/**
+ * 
+ *  status !== STATUS_VEHICLE.DEFAULT ? status : undefined,
+        typeVehicle !== TYPE_VEHICLE.DEFAULT ? typeVehicle : undefined
+ * 
+ */
+
+        );
         setParkings(result);
         setAllParkings(result);
       } catch (error) {
