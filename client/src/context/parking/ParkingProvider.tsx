@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, ReactNode } from "react";
 import { ParkingContextType } from "@/interfaces/IParkingContextType";
+import React, { createContext, ReactNode } from "react";
 
 //======================HOOK==================================
 import HookParkingProvider from "@/context/parking/hookParkingProvider";
@@ -25,17 +25,26 @@ const ParkingProvider: React.FC<ParkingProvidersProps> = ({ children }) => {
     status,
     setStatus,
     resetFilter,
+    sorted,
+    setSorted
   } = HookParkingProvider();
   return (
     <ParkingContext.Provider
       value={{
         parkings,
         loading,
+        //search
         searchParking,
+        //tipo de vehiculo
         typeVehicle,
         setTypeVehicle,
+        //estado
         status,
         setStatus,
+        //orden
+        sorted,
+        setSorted,
+        //borrar filtros
         resetFilter,
       }}
     >

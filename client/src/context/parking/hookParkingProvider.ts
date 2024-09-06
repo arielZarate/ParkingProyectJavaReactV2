@@ -1,6 +1,8 @@
 "use client";
 
+import paginationConfig from "@/config/paginationConfig";
 import STATUS_VEHICLE from "@/enum/statusVehicle";
+import SORT from "@/enum/typeSort";
 import TYPE_VEHICLE from "@/enum/typeVehicle";
 import { IPage, IParking } from "@/interfaces/IParking";
 import {
@@ -10,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 
 //TODO: hook para descentralizar la logica del Provider de parking
+//      aca esta toda la logica 
 
 const HookParkingProvider = () => {
   const [allparkings, setAllParkings] = useState<IPage<IParking> | null>(null);
@@ -20,7 +23,7 @@ const HookParkingProvider = () => {
     TYPE_VEHICLE.DEFAULT,
   );
   const [status, setStatus] = useState<STATUS_VEHICLE>(STATUS_VEHICLE.DEFAULT);
-
+  const [sorted,setSorted]=useState<SORT>(paginationConfig.defaultSort)
 
 
 
@@ -57,20 +60,6 @@ const HookParkingProvider = () => {
     setParkings(allparkings);
   };
 
-  // Función para cargar todos los parkings
-  const loadParkings = async () => {
-    setLoading(true);
-    try {
-      const result:IPage<IParking> = await fetchParkingsPageable(0,10,"id,desc");
-      setParkings(result);
-      setAllParkings(result);
-    } catch (error) {
-      //usar toast
-      console.error("Error fetching parkings", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Función para buscar parkings por licencia
   //BUSCA DESDE EL BACK NO DESDE EL FRONT
@@ -89,21 +78,41 @@ const HookParkingProvider = () => {
     }
   };
 
-  //carga los parkings
-  useEffect(() => {
-    loadParkings();
-  }, []);
 
+  //carga los parkings
+  //============================================================
+
+    // Función para cargar todos los parkings
+    const loadParkings = async (ORDER:SORT) => {
+      setLoading(true);
+      try {
+        const result:IPage<IParking> = await fetchParkingsPageable(paginationConfig.defaultPage,paginationConfig.defaultSize,`id,${ORDER}`);
+        setParkings(result);
+        setAllParkings(result);
+      } catch (error) {
+        //usar toast
+        console.error("Error fetching parkings", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+  useEffect(() => {
+    loadParkings(sorted);
+  }, [sorted]);
+  //===========================================================
   return {
     //cada elemento que devuelva debo declararlo con su type en el provider
     parkings,
     loading,
     searchParking,
-    typeVehicle,
-    status,
-    setStatus,
+    typeVehicle,   //filtro de tipo de vehiculo
+    status,//filtro de estado finalizado o en proceso
+    setStatus, 
     setTypeVehicle,
     resetFilter,
+    sorted, //filtro de orden
+    setSorted
   };
 };
 

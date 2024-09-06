@@ -1,6 +1,7 @@
 "use client";
+import useHookParkingContext from "@/context/parking/useHookParkingContext";
 import SORT from "@/enum/typeSort";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaSort } from "react-icons/fa";
 
@@ -13,25 +14,22 @@ interface ISortVehicleProp{
 
 const SelectSort: FC = () => {
   const { register, watch, setValue } = useForm<ISortVehicleProp>();
-  //const { status, setStatus } = useHookParkingContext();
+  const { sorted,setSorted } = useHookParkingContext();
   // Observa el valor seleccionado
   const selectedSort = watch("sort");
 
-/* 
-
   useEffect(() => {
-    if (SelectedSort) {
-      //console.log(selectedStatusVehicle);
-      //setStatus(selectedStatusVehicle);
+    if (selectedSort) {
+      //console.log(selectedSort);
+      setSorted(selectedSort);
     }
-  }, [SelectedSort]);
+  }, [selectedSort]);
 
   // Si el filtro en el contexto cambia, actualiza el valor del select
   useEffect(() => {
-    setValue("sort", status);
-  }, [status, setValue]);
+    setValue("sort", sorted);
+  }, [sorted, setValue]);
 
-*/
   //==========opcion2 (la vieja y conocida)=============
   /*
   const handleChangeVehicle = (event: ChangeEvent<HTMLSelectElement>) => {
