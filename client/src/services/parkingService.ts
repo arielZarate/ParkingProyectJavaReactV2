@@ -1,7 +1,7 @@
 // services/parkingService.ts
 
 import { axios } from "@/config/axiosConfig";
-import { IPage, IParking } from "@/interfaces/IParking";
+import { IParking } from "@/interfaces/IParking";
 import { ISaveParkingProp } from "@/interfaces/ISaveParkingProp";
 import handleServiceError from "@/utils/handleServiceError";
 
@@ -22,75 +22,6 @@ export const fetchParkings = async (): Promise<IParking[]> => {
 
 
 
-//==============en caso de no tener nada el backend retorno ===========================
-const returnPage={
-  content: [],
-  pageable: {
-    pageNumber: 0,
-    pageSize: 0,
-    sort: { sorted: false, unsorted: true, empty: true },
-    offset: 0,
-    paged: true,
-    unpaged: false,
-  },
-  totalPages: 0,
-  totalElements: 0,
-  size: 0,
-  number: 0,
-  sort: { sorted: false, unsorted: true, empty: true },
-  first: true,
-  last: false,
-  numberOfElements: 0,
-  empty: true,
-
-}
-
-                                                                     //ejemplo
-export const fetchParkingsPageable=async(page:number,size:number,sort:string):Promise<IPage<IParking>>=>{
-
-  try {
-    const response = await axios.get<IPage<IParking>>(`/api/parking/pageable`, {
-      params: {
-        page,
-        size,
-        sort
-
-        /**
-         * 
-         *  status: status !== STATUS_VEHICLE.DEFAULT ? status : undefined,
-        typeVehicle: typeVehicle !== TYPE_VEHICLE.DEFAULT ? typeVehicle : undefined,
-         * 
-         */
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error(error)
-    handleServiceError(error);
-
-    return{
-      content: [],
-      pageable: {
-        pageNumber: 0,
-        pageSize: 0,
-        sort: { sorted: false, unsorted: true, empty: true },
-        offset: 0,
-        paged: true,
-        unpaged: false,
-      },
-      totalPages: 0,
-      totalElements: 0,
-      size: 0,
-      number: 0,
-      sort: { sorted: false, unsorted: true, empty: true },
-      first: true,
-      last: false,
-      numberOfElements: 0,
-      empty: true,
-    }
-    
-  }
-}
 
 //===========================================
 //debo importar el id del empleado cuando este logueado
@@ -134,7 +65,6 @@ export const getParkingByLicencePlate=async(licencePlate:string):Promise<IParkin
   }
 
 }
-
 
 
 //==============datos harckodeados============

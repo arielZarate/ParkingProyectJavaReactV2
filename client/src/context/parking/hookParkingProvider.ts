@@ -5,10 +5,8 @@ import STATUS_VEHICLE from "@/enum/statusVehicle";
 import SORT from "@/enum/typeSort";
 import TYPE_VEHICLE from "@/enum/typeVehicle";
 import { IPage, IParking } from "@/interfaces/IParking";
-import {
-  fetchParkingsPageable,
-  getParkingByLicencePlate
-} from "@/services/parkingService";
+
+import { fetchParkingsPageable, getParkingByLicencePlate } from "@/services/parkingPageableService";
 import { useEffect, useState } from "react";
 
 //TODO: hook para descentralizar la logica del Provider de parking
@@ -65,11 +63,11 @@ const HookParkingProvider = () => {
   //BUSCA DESDE EL BACK NO DESDE EL FRONT
   const searchParking = async (licencePlate: string) => {
     try {
-      const parkingFound = await getParkingByLicencePlate(licencePlate);
-      //setLoading(true);
+      const parkingFound = await getParkingByLicencePlate(licencePlate,paginationConfig.defaultPage,paginationConfig.defaultSize,`id,${paginationConfig.defaultSort}`);
+      setLoading(true);
       //console.log(parkingFound)
-     // setParkings(parkingFound);
-      // setLoading(false);
+     setParkings(parkingFound);
+       setLoading(false);
     } catch (error) {
       console.error("Error searching parking by licence plate", error);
       // alert(error);

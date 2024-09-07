@@ -85,7 +85,7 @@ public class ParkingService {
     public List<Parking> getParkingByLicencePlate(String licencePlate) {
 
         try {
-             System.out.println("back:"+ licencePlate);
+        //  System.out.println("back:"+ licencePlate);
             String formatterLicencePlate=licencePlate.trim().toUpperCase();
           //  System.out.println("patente qe ingresa es "+ formatterLicencePlate);
             return parkingRepository.findByVehicleLicencePlate(formatterLicencePlate);
@@ -94,6 +94,10 @@ public class ParkingService {
             throw new CustomException("Error al buscar el parking por matrícula: " + e.getMessage());
         }
     }
+
+
+
+    
 
 
     @Transactional
@@ -272,7 +276,7 @@ public class ParkingService {
 
 
 @Transactional
-public Sort convertedSorted(String sort)
+private Sort convertedSorted(String sort)
 {
     //este metodo recibe un string en este formato "id,desc" 
     
@@ -306,6 +310,29 @@ public Page<Parking> findAllParking(int page, int size,String sort){
 }
  
 
+
+   ///me devuelve todos los parking por la licencia pero paginados
+   @Transactional
+   public Page<Parking> getParkingByLicencePlate(String licencePlate, int page,int size,String sort) {
+   try {
+          //  System.out.println("back:"+ licencePlate);
+        // Ordenación basada en el string "sort"
+        Sort  sortedObj=convertedSorted(sort);
+
+         // Paginación
+        PageRequest pageable=PageRequest.of(page, size,sortedObj);
+
+
+           // Normaliza la matrícula (sin espacios, en mayúsculas)
+        String formatterLicencePlate=licencePlate.trim().toUpperCase();
+
+        // Llamada al repositorio para devolver los resultados paginados
+        return parkingRepository.findByVehicleLicencePlate(formatterLicencePlate,pageable);
+       } catch (Exception e) {
+           // Lanzar una CustomException con un mensaje más específico
+           throw new CustomException("Error al buscar el parking por matrícula: " + e.getMessage());
+       }
+   }
 
 
 

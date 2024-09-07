@@ -41,6 +41,7 @@ const SearchBar = (props: Props) => {
         return;
       }
       searchParking(search.licencePlate);
+      //luego de buscar setea el search
       setSearch({
         licencePlate: "",
       });
