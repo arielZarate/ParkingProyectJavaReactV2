@@ -8,11 +8,12 @@ import SearchBar from "../Filter/SearBar";
 import SelectSort from "../Filter/SelectSort";
 import SelectStatusVehicle from "../Filter/SelectStatusVehicle";
 import SelectTypeVehicle from "../Filter/SelectTypeVehicle";
+import Pagination from "../Pagination/Pagination";
 //import useToast from "../ToastMessage/useToast";
 
 const TableParking: React.FC = () => {
   const { parkings, loading, resetFilter } = useHookParkingContext();
-   //const {}=parkings;
+  //const {}=parkings;
 
   //console.log("hook\n",parkings)
 
@@ -31,10 +32,10 @@ const TableParking: React.FC = () => {
             <SearchBar />
             <SelectTypeVehicle />
             <SelectStatusVehicle />
-            <SelectSort/>
+            <SelectSort />
             <div className="relative mb-12 pb-7">
               <button
-                className=" absolute w-48 translate-x-0 appearance-none rounded-md border border-stroke bg-gray  h-12.5 py-3 font-medium text-primary outline-none transition hover:border-primary dark:border-form-strokedark  dark:bg-slate-500 dark:bg-transparent dark:text-white dark:hover:border-primary 
+                className=" absolute h-12.5 w-48 translate-x-0 appearance-none rounded-md border border-stroke  bg-gray py-3 font-medium text-primary outline-none transition hover:border-primary dark:border-form-strokedark  dark:bg-slate-500 dark:bg-transparent dark:text-white dark:hover:border-primary 
              dark:focus:border-primary md:top-6 md:w-32 md:translate-x-0 lg:translate-x-0 xl:translate-x-0 "
                 onClick={resetFilter}
               >
@@ -48,7 +49,7 @@ const TableParking: React.FC = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                 {/* <th className="min-w-[40px] px-1 py-2 font-medium text-black dark:text-white xl:pl-11">
+                  {/* <th className="min-w-[40px] px-1 py-2 font-medium text-black dark:text-white xl:pl-11">
                     ID
                   </th> */}
                   <th className="min-w-[80px] px-2 py-2 font-medium text-black dark:text-white xl:pl-11">
@@ -76,24 +77,26 @@ const TableParking: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-               
-               
                 {parkings?.content.map((parking) => (
                   <tr key={parking.id}>
-                 
                     <td className="border-b border-[#eee] px-2 py-4 pl-5 dark:border-strokedark xl:pl-11">
                       <h5 className="font-medium text-black dark:text-white">
                         {parking.vehicle.licencePlate}
                       </h5>
-                   
                     </td>
                     <td className="border-b border-[#eee] px-4 py-4 pl-8  dark:border-strokedark xl:pl-11">
                       <p className="text-black dark:text-white">
-                        {parking.vehicle.typeVehicle===TYPE_VEHICLE.BICYCLE?"BICI": 
-                        parking.vehicle.typeVehicle===TYPE_VEHICLE.CAR?"AUTO":
-                        parking.vehicle.typeVehicle===TYPE_VEHICLE.MOTORCYCLE?"MOTO":
-                        parking.vehicle.typeVehicle===TYPE_VEHICLE.TRUCK?"UTILITARIO":
-                        TYPE_VEHICLE.DEFAULT}
+                        {parking.vehicle.typeVehicle === TYPE_VEHICLE.BICYCLE
+                          ? "BICI"
+                          : parking.vehicle.typeVehicle === TYPE_VEHICLE.CAR
+                            ? "AUTO"
+                            : parking.vehicle.typeVehicle ===
+                                TYPE_VEHICLE.MOTORCYCLE
+                              ? "MOTO"
+                              : parking.vehicle.typeVehicle ===
+                                  TYPE_VEHICLE.TRUCK
+                                ? "UTILITARIO"
+                                : TYPE_VEHICLE.DEFAULT}
                       </p>
                     </td>
 
@@ -138,11 +141,19 @@ const TableParking: React.FC = () => {
                     </td>
                   </tr>
                 ))}
-               
               </tbody>
             </table>
           </div>
         </div>
+
+        <section
+          id="pagination"
+          className={`min-w-4xl mx-auto flex items-center justify-center ${
+            parkings?.content.length === 0 ? "mt-125" : "mt-70"
+          }`}
+        >
+          <Pagination />
+        </section>
       </Suspense>
     </>
   );
