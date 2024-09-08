@@ -131,16 +131,17 @@ public class ParkingController {
   public ResponseEntity<Page<Parking>> getAllParkingPageable(
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "10") int size,
-    @RequestParam(defaultValue = "id,desc") String sort
+    @RequestParam(defaultValue = "id,desc") String sort,
+    @RequestParam(required = false)String status,
+    @RequestParam(required = false)String typeVehicle
     )
-    
-     {
+    {
+        Page<Parking> parkings;
+        //parkings= parkingService.findAllParking(page, size,sort);
+        parkings= parkingService.findParkingWithOptionalFilters(status,typeVehicle,page, size,sort);
+      return ResponseEntity.status(HttpStatus.OK).body(parkings);
 
-    Page<Parking> parkings= parkingService.findAllParking(page, size,sort);
-
-    return ResponseEntity.status(HttpStatus.OK).body(parkings);
-  }
-  
+    }
 
   @GetMapping("/licencePlatePageable/{licencePlate}")
   public ResponseEntity<Page<Parking>> getParkingByLicence(

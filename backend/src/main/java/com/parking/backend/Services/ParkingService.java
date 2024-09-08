@@ -336,6 +336,42 @@ public Page<Parking> findAllParking(int page, int size,String sort){
 
 
 
+//con el uso de este metodo ya no usare el findAllParking
+  @Transactional
+   public Page<Parking> findParkingWithOptionalFilters(String status,String typeVehicle,int page, int size,String sort){
+    try {
+          // Convertir el parámetro de ordenación a un objeto Sort
+          Sort sortingObj = convertedSorted(sort);
+          // Crear el objeto de paginación
+          PageRequest pageable = PageRequest.of(page, size, sortingObj);
+
+
+      if(status!=null && typeVehicle !=null)
+      {
+         // Filtrar por estado y tipo de vehículo
+         return parkingRepository.findByStatusAndTypeVehicle(status, typeVehicle, pageable);
+      }
+      else if(status !=null)
+      {
+        // Filtrar solo por estado
+         return parkingRepository.findByStatus(status, pageable);
+
+      }else if(typeVehicle !=null)
+      {
+          // Filtrar solo por tipo de vehículo
+          return parkingRepository.findByTypeVehicle(typeVehicle, pageable);
+      }else{
+       
+        return parkingRepository.findAll(pageable);
+      }
+
+        
+    } catch (Exception e) {
+          // Lanzar una CustomException con un mensaje más específico
+          throw new CustomException("Error al Obtener los parking : " + e.getMessage());
+    }
+   }
+
 //===============================================================
 
 

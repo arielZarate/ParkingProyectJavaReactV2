@@ -11,65 +11,61 @@ import org.springframework.stereotype.Repository;
 import com.parking.backend.Enum.STATUS_PARKING;
 import com.parking.backend.Models.Parking;
 
-
 @Repository
-public interface ParkingRepository extends JpaRepository<Parking,Long > {
+public interface ParkingRepository extends JpaRepository<Parking, Long> {
 
-    Optional<Parking> findByVehicleId(Long vehicleId);
+        Optional<Parking> findByVehicleId(Long vehicleId);
 
-    /**
-       METODO VIEJO QUE TRAIA UNA LISTA 
-    
-        @Query("SELECT p FROM Parking p JOIN p.vehicle v WHERE LOWER(v.licencePlate) = LOWER(:licencePlate)")
-        List<Parking> findByVehicleLicencePlate(@Param("licencePlate") String licencePlate);
- 
-     */
+        /**
+         * METODO VIEJO QUE TRAIA UNA LISTA
+         * 
+         * @Query("SELECT p FROM Parking p JOIN p.vehicle v WHERE LOWER(v.licencePlate)
+         * = LOWER(:licencePlate)")
+         * List<Parking> findByVehicleLicencePlate(@Param("licencePlate") String
+         * licencePlate);
+         * 
+         */
 
-    List<Parking> findByVehicleLicencePlate(String licencePlate);
+        List<Parking> findByVehicleLicencePlate(String licencePlate);
 
-    List<Parking> findByStatus(STATUS_PARKING status);
+        List<Parking> findByStatus(STATUS_PARKING status);
 
+        // Paginado
 
-    //Paginado
+        // Page<Parking> findByVehicleLicencePlate(String licencePlate,Pageable
+        // pageable);
 
-      // Page<Parking> findByVehicleLicencePlate(String licencePlate,Pageable pageable);
+        // metodo para paginar todos los parkings
+        @SuppressWarnings("null")
+        Page<Parking> findAll(Pageable pageable);
 
-      
-      //metodo para paginar todos los parkings
-      @SuppressWarnings("null")
-       Page<Parking> findAll(Pageable pageable);
+        // metodo para paginar los aprkings por la matricula
+        Page<Parking> findByVehicleLicencePlate(String licencePlate, Pageable pageable);
 
+        Page<Parking> findByStatusAndTypeVehicle(String status, String typeVehicle, Pageable pageable);
 
-       //metodo para paginar los aprkings por la matricula 
-       Page<Parking> findByVehicleLicencePlate(String licencePlate,Pageable pageable);
-      
-       //metodo para paginar los parkings por status
-       Page<Parking>findByStatus(STATUS_PARKING status,Pageable pageable);
+        Page<Parking> findByStatus(String status, Pageable pageable);
 
+        Page<Parking> findByTypeVehicle(String typeVehicle, Pageable pageable);
 
-       /**
-        * 
-Page<Parking> findByStatusAndTypeVehicle(String status, String typeVehicle, Pageable pageable);
-
-También puedes agregar lógica para hacer que los parámetros sean opcionales:
-
-
-
-
-@Query("SELECT p FROM Parking p WHERE " +
-       "(:status IS NULL OR p.status = :status) AND " +
-       "(:typeVehicle IS NULL OR p.typeVehicle = :typeVehicle)")
-Page<Parking> findWithFilters(@Param("status") String status, 
-                              @Param("typeVehicle") String typeVehicle, 
-                              Pageable pageable);
-
-
-
-        */
-      
 }
 
-
-
-
-
+/**
+ * 
+ * 
+ * 
+ * También puedes agregar lógica para hacer que los parámetros sean opcionales:
+ * 
+ * 
+ * 
+ * 
+ * @Query("SELECT p FROM Parking p WHERE " +
+ * "(:status IS NULL OR p.status = :status) AND " +
+ * "(:typeVehicle IS NULL OR p.typeVehicle = :typeVehicle)")
+ * Page<Parking> findWithFilters(@Param("status") String status,
+ * @Param("typeVehicle") String typeVehicle,
+ * Pageable pageable);
+ * 
+ * 
+ * 
+ */
