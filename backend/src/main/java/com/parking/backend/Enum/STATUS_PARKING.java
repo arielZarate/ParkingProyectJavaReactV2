@@ -17,4 +17,7 @@ public enum STATUS_PARKING {
     public String getDescription(){
         return this.description;
     }
+
+
+
 }

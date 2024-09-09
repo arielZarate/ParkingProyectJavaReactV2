@@ -144,6 +144,39 @@ public class ParkingController {
 
     }
 
+  @GetMapping("/statusPageable/{status}")
+  public ResponseEntity<Page<Parking>> getParkingsByStatuPageable(
+    @PathVariable STATUS_PARKING status,
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size,
+    @RequestParam(defaultValue = "id,desc")  String sort
+    
+    ){
+
+    Page<Parking> parking= parkingService.findParkingsByStatus(status,page,size,sort);
+       // Devuelve una respuesta exitosa con la página de resultados
+      return  ResponseEntity.status(HttpStatus.OK).body(parking);
+  }
+  
+
+  
+  @GetMapping("/typeVehiclePageable/{typeVehicle}")
+  public ResponseEntity<Page<Parking>> getParkingsByTypeVehicle(
+    @PathVariable TYPE_VEHICLE typeVehicle,
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size,
+    @RequestParam(defaultValue = "id,desc")  String sort
+    
+    ){
+
+    Page<Parking> parking= parkingService.findParkingsByTypeVehicle(typeVehicle,page,size,sort);
+       // Devuelve una respuesta exitosa con la página de resultados
+      return  ResponseEntity.status(HttpStatus.OK).body(parking);
+  }
+
+
+
+  
   @GetMapping("/licencePlatePageable/{licencePlate}")
   public ResponseEntity<Page<Parking>> getParkingByLicence(
     @PathVariable String licencePlate,

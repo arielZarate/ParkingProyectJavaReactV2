@@ -40,22 +40,20 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {
         @SuppressWarnings("null")
         Page<Parking> findAll(Pageable pageable);
 
-        // metodo para paginar los aprkings por la matricula
+        // metodo para paginar los PARKINGS por la matricula
         Page<Parking> findByVehicleLicencePlate(String licencePlate, Pageable pageable);
-
-        Page<Parking> findByStatusAndVehicleTypeVehicle(STATUS_PARKING status, TYPE_VEHICLE type_vehicle, Pageable pageable);
-
-
-        /**
-         * 
-         * 
+     
         Page<Parking> findByStatus(STATUS_PARKING status, Pageable pageable);
-
-        @Query("SELECT p FROM Parking p WHERE p.vehicle.typeVehicle := typeVehicle")
-        Page<Parking> findByTypeVehicle(@Param("typeVehicle")
-         TYPE_VEHICLE typeVehicle, Pageable pageable);
-         * 
+        /*
+          @Query("SELECT p FROM Parking p WHERE p.vehicle.typeVehicle = :typeVehicle")
+        Page<Parking> findByTypeVehicle(@Param("typeVehicle") TYPE_VEHICLE typeVehicle, Pageable pageable);
          */
+        //CON DATA JPA
+        Page<Parking> findByVehicleTypeVehicle(TYPE_VEHICLE typeVehicle, Pageable pageable);
+
+        //busca por status y typeVehicle
+        Page<Parking> findByStatusAndVehicleTypeVehicle(STATUS_PARKING status, TYPE_VEHICLE type_vehicle, Pageable pageable);
+     
 
 }
 
