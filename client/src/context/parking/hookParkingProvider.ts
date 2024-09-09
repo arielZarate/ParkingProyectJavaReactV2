@@ -26,6 +26,13 @@ const HookParkingProvider = () => {
   const [status, setStatus] = useState<STATUS_VEHICLE>(STATUS_VEHICLE.DEFAULT);
   const [sorted, setSorted] = useState<SORT>(paginationConfig.defaultSort);
 
+  //============PAGINADO===============
+  // Estados adicionales para manejar la paginación
+  const [currentPage, setCurrentPage] = useState(paginationConfig.defaultPage);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+  //=============================================================
+  //metodo para setear datos
   const resetFilter = () => {
     setStatus(STATUS_VEHICLE.DEFAULT);
     setTypeVehicle(TYPE_VEHICLE.DEFAULT);
@@ -62,11 +69,12 @@ const HookParkingProvider = () => {
     ORDER: SORT,
     status: STATUS_VEHICLE,
     typeVehicle: TYPE_VEHICLE,
+    page: number,
   ) => {
     setLoading(true);
     try {
       const result: IPage<IParking> = await fetchParkingsPageable(
-        paginationConfig.defaultPage,
+        page,
         paginationConfig.defaultSize,
         `id,${ORDER}`,
         //ACA ESTA LA MAGIA DEL FILTRADO DONDE MANDO LOS PARAMS
@@ -75,6 +83,11 @@ const HookParkingProvider = () => {
       );
       setParkings(result);
       setAllParkings(result);
+
+      //ACTUALIZO EL ESTADO DE EL PAGINADO
+      setTotalPages(result.totalPages);
+      setTotalElements(result.totalElements);
+      setCurrentPage(result.number);
     } catch (error) {
       //usar toast
       console.error("Error fetching parkings", error);
@@ -83,10 +96,16 @@ const HookParkingProvider = () => {
     }
   };
 
+  // Cambiar la página actual y recargar los parkings
+  const changePage = (newPage: number) => {
+    setCurrentPage(newPage);
+    loadParkings(sorted, status, typeVehicle, newPage); // Recargar los parkings con la nueva página
+  };
+
   useEffect(() => {
     //ahora  para el filtrado mando los parametros en el fetch
-    loadParkings(sorted, status, typeVehicle);
-  }, [sorted, status, typeVehicle]);
+    loadParkings(sorted, status, typeVehicle, currentPage);
+  }, [sorted, status, typeVehicle, currentPage]);
   //===========================================================
   return {
     //cada elemento que devuelva debo declararlo con su type en el provider
@@ -100,6 +119,11 @@ const HookParkingProvider = () => {
     resetFilter,
     sorted, //filtro de orden
     setSorted,
+
+    currentPage, // Página actual
+    totalPages, // Total de páginas
+    totalElements, // Total de elementos
+    setCurrentPage, // Cambiar página desde el componente de paginación
   };
 };
 

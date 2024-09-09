@@ -11,9 +11,15 @@ export interface ParkingContextType {
   setTypeVehicle: (typeVehicle: TYPE_VEHICLE) => void;
   status: STATUS_VEHICLE;
   setStatus: (status: STATUS_VEHICLE) => void;
-  sorted:SORT;
-  setSorted:(sorted:SORT)=>void;
+  sorted: SORT;
+  setSorted: (sorted: SORT) => void;
   resetFilter: () => void;
   //setFilter:Dispatch<SetStateAction<{typeVehicle:TYPE_VEHICLE;status:STATUS_VEHICLE}>>
   searchParking: (licencePlate: string) => void;
+
+  //pagination
+  currentPage: number;
+  totalPages: number;
+  totalElements: number;
+  setCurrentPage: (page: number) => void;
 }

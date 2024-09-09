@@ -26,7 +26,13 @@ const ParkingProvider: React.FC<ParkingProvidersProps> = ({ children }) => {
     setStatus,
     resetFilter,
     sorted,
-    setSorted
+    setSorted,
+
+    //pagination
+    currentPage,
+    totalPages,
+    totalElements,
+    setCurrentPage,
   } = HookParkingProvider();
   return (
     <ParkingContext.Provider
@@ -46,6 +52,11 @@ const ParkingProvider: React.FC<ParkingProvidersProps> = ({ children }) => {
         setSorted,
         //borrar filtros
         resetFilter,
+        //pagination
+        currentPage,
+        totalPages,
+        totalElements,
+        setCurrentPage,
       }}
     >
       {children}
