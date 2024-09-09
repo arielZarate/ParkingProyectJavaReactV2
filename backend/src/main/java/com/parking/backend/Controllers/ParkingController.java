@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parking.backend.Enum.STATUS_PARKING;
+import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Models.Parking;
 import com.parking.backend.Models.Vehicle;
 import com.parking.backend.Services.ParkingService;
@@ -132,8 +133,8 @@ public class ParkingController {
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "10") int size,
     @RequestParam(defaultValue = "id,desc") String sort,
-    @RequestParam(required = false)String status,
-    @RequestParam(required = false)String typeVehicle
+    @RequestParam(required = false)STATUS_PARKING status,
+    @RequestParam(required = false)TYPE_VEHICLE typeVehicle
     )
     {
         Page<Parking> parkings;

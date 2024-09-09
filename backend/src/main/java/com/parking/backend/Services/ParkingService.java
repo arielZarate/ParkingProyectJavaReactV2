@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.parking.backend.Enum.STATUS_PARKING;
+import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Exceptions.CustomException;
 import com.parking.backend.Models.Employee;
 import com.parking.backend.Models.Parking;
@@ -338,7 +339,7 @@ public Page<Parking> findAllParking(int page, int size,String sort){
 
 //con el uso de este metodo ya no usare el findAllParking
   @Transactional
-   public Page<Parking> findParkingWithOptionalFilters(String status,String typeVehicle,int page, int size,String sort){
+   public Page<Parking> findParkingWithOptionalFilters(STATUS_PARKING status,TYPE_VEHICLE typeVehicle,int page, int size,String sort){
     try {
           // Convertir el parámetro de ordenación a un objeto Sort
           Sort sortingObj = convertedSorted(sort);
@@ -349,9 +350,14 @@ public Page<Parking> findAllParking(int page, int size,String sort){
       if(status!=null && typeVehicle !=null)
       {
          // Filtrar por estado y tipo de vehículo
-         return parkingRepository.findByStatusAndTypeVehicle(status, typeVehicle, pageable);
+         return parkingRepository.findByStatusAndVehicleTypeVehicle(status, typeVehicle, pageable);
       }
-      else if(status !=null)
+
+
+
+      /**
+       * 
+       *    else if(status !=null)
       {
         // Filtrar solo por estado
          return parkingRepository.findByStatus(status, pageable);
@@ -360,7 +366,10 @@ public Page<Parking> findAllParking(int page, int size,String sort){
       {
           // Filtrar solo por tipo de vehículo
           return parkingRepository.findByTypeVehicle(typeVehicle, pageable);
-      }else{
+      }
+       * 
+       */
+   else{
        
         return parkingRepository.findAll(pageable);
       }

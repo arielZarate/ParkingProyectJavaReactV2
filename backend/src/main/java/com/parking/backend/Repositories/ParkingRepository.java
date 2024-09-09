@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.parking.backend.Enum.STATUS_PARKING;
+import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Models.Parking;
 
 @Repository
@@ -42,30 +43,19 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {
         // metodo para paginar los aprkings por la matricula
         Page<Parking> findByVehicleLicencePlate(String licencePlate, Pageable pageable);
 
-        Page<Parking> findByStatusAndTypeVehicle(String status, String typeVehicle, Pageable pageable);
+        Page<Parking> findByStatusAndVehicleTypeVehicle(STATUS_PARKING status, TYPE_VEHICLE type_vehicle, Pageable pageable);
 
-        Page<Parking> findByStatus(String status, Pageable pageable);
 
-        Page<Parking> findByTypeVehicle(String typeVehicle, Pageable pageable);
+        /**
+         * 
+         * 
+        Page<Parking> findByStatus(STATUS_PARKING status, Pageable pageable);
+
+        @Query("SELECT p FROM Parking p WHERE p.vehicle.typeVehicle := typeVehicle")
+        Page<Parking> findByTypeVehicle(@Param("typeVehicle")
+         TYPE_VEHICLE typeVehicle, Pageable pageable);
+         * 
+         */
 
 }
 
-/**
- * 
- * 
- * 
- * También puedes agregar lógica para hacer que los parámetros sean opcionales:
- * 
- * 
- * 
- * 
- * @Query("SELECT p FROM Parking p WHERE " +
- * "(:status IS NULL OR p.status = :status) AND " +
- * "(:typeVehicle IS NULL OR p.typeVehicle = :typeVehicle)")
- * Page<Parking> findWithFilters(@Param("status") String status,
- * @Param("typeVehicle") String typeVehicle,
- * Pageable pageable);
- * 
- * 
- * 
- */
