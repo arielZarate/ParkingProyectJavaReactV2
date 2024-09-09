@@ -44,7 +44,7 @@ const TableParking: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="rounded-sm border border-stroke bg-white px-4 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="rounded-sm border border-stroke bg-white px-4  pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
           <div className="max-w-full overflow-auto ">
             <table className="w-full table-auto">
               <thead>
@@ -100,7 +100,7 @@ const TableParking: React.FC = () => {
                       </p>
                     </td>
 
-                    <td className="border-b border-[#eee] px-4 py-4 pl-0 dark:border-strokedark">
+                    <td className="border-b border-[#eee] px-4 py-2 pl-0 dark:border-strokedark">
                       <p
                         className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium 
                       ${
@@ -114,24 +114,24 @@ const TableParking: React.FC = () => {
                           : "En proceso"}
                       </p>
                     </td>
-                    <td className="border-b border-[#eee] px-2 py-4 dark:border-strokedark">
+                    <td className="border-b border-[#eee] px-2 py-2 dark:border-strokedark">
                       <p className="text-black dark:text-white">
                         {parking.entryTime}
                       </p>
                     </td>
 
-                    <td className="border-b border-[#eee] px-2 py-4 dark:border-strokedark">
+                    <td className="border-b border-[#eee] px-2 py-2 dark:border-strokedark">
                       <p className="text-black dark:text-white">
                         {parking.exitTime}
                       </p>
                     </td>
-                    <td className=" border-b border-[#eee] px-2  py-4  text-center dark:border-strokedark">
+                    <td className=" border-b border-[#eee] px-2  py-2  text-center dark:border-strokedark">
                       <p className="text-black dark:text-white">
                         {parking.hours}
                       </p>
                     </td>
 
-                    <td className="border-b border-[#eee] px-2  py-4 dark:border-strokedark xl:pr-5">
+                    <td className="border-b border-[#eee] px-2  py-2 dark:border-strokedark xl:pr-5">
                       <p className="text-black dark:text-white">
                         {new Intl.NumberFormat("es-AR", {
                           style: "currency",
@@ -149,7 +149,7 @@ const TableParking: React.FC = () => {
         <section
           id="pagination"
           className={`min-w-4xl mx-auto flex items-center justify-center ${
-            parkings?.content.length === 0 ? "mt-125" : "mt-70"
+            parkings?.content.length === 0 ? "mt-96" : "mt-4"
           }`}
         >
           <Pagination />
