@@ -149,7 +149,7 @@ const TableParking: React.FC = () => {
         <section
           id="pagination"
           className={`min-w-4xl mx-auto flex items-center justify-center ${
-            parkings?.content.length === 0 ? "mt-96" : "mt-4"
+            parkings?.content === undefined ? "mt-72" : "mt-10"
           }`}
         >
           <Pagination />

@@ -6,13 +6,21 @@ import useHookParkingContext from "@/context/parking/useHookParkingContext";
 interface Props {}
 
 const Pagination = (props: Props) => {
-  const { currentPage, totalPages, setCurrentPage } = useHookParkingContext();
+  const { currentPage, totalPages, setCurrentPage, totalElements } =
+    useHookParkingContext();
+
+  //console.log("currentPage:", currentPage);
+  //console.log("totalPages:", totalPages);
+  //console.log("totalElements:", totalElements);
 
   // Generar un array con los números de página
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
+  //console.log("pages tiene :", pages); //[0,1.2]
+
   const handlePageChange = (page: number) => {
-    if (page > 0 && page <= totalPages) {
+    if (page >= 0 && page < totalPages) {
+      //  console.log(page, totalPages);
       setCurrentPage(page);
     }
   };
@@ -20,42 +28,42 @@ const Pagination = (props: Props) => {
   return (
     <div className="flex items-center">
       {/* Botón para ir a la página anterior */}
-      <Link
-        href="#"
+      <div
         onClick={() => handlePageChange(currentPage - 1)}
-        className={`dark:bg-gray-800 dark:text-gray-600 mx-1 flex items-center justify-center rounded-md bg-slate-400 px-3 py-2 capitalize text-white rtl:-scale-x-100 ${
-          currentPage === 1 ? "cursor-not-allowed" : ""
-        }`}
+        className={`dark:bg-gray-800 dark:text-gray-600 mx-1 flex items-center justify-center rounded-md bg-slate-400 px-3 py-2 capitalize text-white rtl:-scale-x-100  ${
+          currentPage === 0 ? "cursor-not-allowed" : ""
+        } `}
       >
+        {/* */}
         <FaAngleLeft size={15} />
-      </Link>
+      </div>
 
       {/* Generar botones de paginación dinámicamente */}
       {pages.map((page) => (
-        <Link
+        <div
           key={page}
-          href="#"
-          onClick={() => handlePageChange(page)}
+          onClick={() => handlePageChange(page - 1)}
           className={`dark:text-gray-200 mx-1 transform rounded-md px-4 py-2 font-thin text-black transition-colors duration-300 hover:bg-secondary hover:text-white dark:border-strokedark dark:bg-boxdark dark:hover:bg-secondary sm:inline ${
-            currentPage === page
+            currentPage + 1 === page
               ? "bg-blue-500 text-white"
               : "bg-white text-black"
           }`}
         >
           {page}
-        </Link>
+        </div>
       ))}
 
       {/* Botón para ir a la página siguiente */}
-      <Link
-        href="#"
+      <div
         onClick={() => handlePageChange(currentPage + 1)}
         className={`dark:bg-gray-800 dark:text-gray-600 mx-1 flex items-center justify-center rounded-md bg-slate-400 px-3 py-2 capitalize text-white rtl:-scale-x-100 ${
-          currentPage === totalPages ? "cursor-not-allowed" : ""
+          currentPage + 1 <= totalPages ? "cursor-not-allowed" : ""
         }`}
       >
         <FaAngleRight size={15} />
-      </Link>
+
+        <span></span>
+      </div>
     </div>
   );
 };
