@@ -1,30 +1,30 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdEmail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
-
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import LoginSchema from "@/utils/loginSchema";
-import * as z from "zod";
 
-// Definimos el tipo de los datos usando Zod
-type TypeLogin = z.infer<typeof LoginSchema>;
-
+interface LoginType {
+  email: string;
+  password: string;
+}
 const SignInForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TypeLogin>({
-    resolver: zodResolver(LoginSchema),
-  });
+  } = useForm<LoginType>();
 
-  //{  resolver: zodResolver(LoginSchema),}
-  const sendLogin = async (data: TypeLogin) => {
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const sendLogin = async (data: LoginType) => {
     console.log("Datos enviados:", data);
     // Aquí puedes manejar la autenticación con NextAuth
   };
@@ -35,9 +35,6 @@ const SignInForm: React.FC = () => {
         <div className="flex flex-wrap items-center">
           <div className="hidden h-full  bg-slate-800  md:w-1/2  xl:block xl:w-1/2  ">
             <div className="px-26 py-17.5 text-center">
-              {/*  <h2 className="mb-2 text-4xl font-bold text-primary">
-                Inicio de Sesión
-              </h2> */}
               <h1 className=" text-5xl font-semibold  hover:text-secondary">
                 Sistema de Parking
               </h1>
@@ -77,16 +74,25 @@ const SignInForm: React.FC = () => {
                       type="email"
                       placeholder="Ingrese su correo"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-secondary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-secondary"
-                      {...register("email")}
+                      {...register("email", {
+                        required: "El email es requerido",
+                        pattern: {
+                          value:
+                            /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com)$/,
+                          message: "Formato de correo no válido",
+                        },
+                      })}
                     />
 
                     <span className="absolute right-4 top-4">
                       <MdEmail size={20} color="gray" />
                     </span>
+                    {errors.email && (
+                      <p className="m-1 w-96 rounded-sm bg-rose-200 px-4 py-0.5 text-red">
+                        <span className="px-2"> {errors.email.message}</span>
+                      </p>
+                    )}
                   </div>
-                  {errors.email && (
-                    <p className="text-red-500 mt-1">{errors.email.message}</p>
-                  )}
                 </div>
 
                 <div className="mb-6">
@@ -95,32 +101,45 @@ const SignInForm: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Debe tener min 8 caracteres , 1 Mayuscula y un caracter especial"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-secondary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-secondary"
-                      {...register("password")}
+                      {...register("password", {
+                        required: "La contraseña es requerida",
+                        pattern: {
+                          value:
+                            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                          message:
+                            "La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un carácter especial (@, $, !, %, *, ?, &)",
+                        },
+                      })}
                     />
 
-                    <span className="absolute right-4 top-4">
-                      <CiLock size={20} color="gray" />
+                    <span
+                      className="absolute right-4 top-4 cursor-pointer"
+                      onClick={togglePasswordVisibility} // Evento para alternar la visibilidad de la contraseña
+                    >
+                      {showPassword ? (
+                        <AiFillEyeInvisible size={20} color="gray" />
+                      ) : (
+                        <AiFillEye size={20} color="gray" />
+                      )}
                     </span>
+                    {errors.password && (
+                      <p className="m-1 w-96 rounded-sm bg-rose-200 px-4 py-0.5 text-red">
+                        <span className="px-2"> {errors.password.message}</span>
+                      </p>
+                    )}
                   </div>
-                  {errors.password && (
-                    <p className="text-red-500 mt-1">
-                      {errors.password.message}
-                    </p>
-                  )}
                 </div>
 
-                <div>
-                  <Link href={"#"} className="mb-5">
-                    <button
-                      type="submit"
-                      className="w-full cursor-pointer rounded-lg border border-secondary bg-secondary p-4 font-bold text-white transition hover:bg-opacity-90"
-                    >
-                      Iniciar Sesion
-                    </button>
-                  </Link>
+                <div className="mb-5">
+                  <button
+                    type="submit"
+                    className="w-full cursor-pointer rounded-lg border border-secondary bg-secondary p-4 font-bold text-white transition hover:bg-opacity-90"
+                  >
+                    Iniciar Sesion
+                  </button>
                 </div>
 
                 {/*

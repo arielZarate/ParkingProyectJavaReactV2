@@ -1,3 +1,5 @@
+/*
+
 import NextAuth from "next-auth";
 import { axios } from "@/config/axiosConfig";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -14,55 +16,56 @@ const handler = NextAuth({
         token.accessToken = user.id;
       }
 
-      /** if (user?.token) {
+     if (user?.token) {
         token.accessToken = user.token; // Guardar el JWT en el token
-      } */
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        // Añadir el token al objeto de sesión
-        //session.accessToken=token.accessToken;
-      }
-      return session;
-    },
-  },
-
-  providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
+      } 
+        return token;
       },
-
-      async authorize(credentials) {
-        if (!credentials) return null;
-
-        const res = await axios.post("/api/auth/login", {
-          body: JSON.stringify({
-            username: credentials?.username,
-            password: credentials?.password,
-          }),
-        });
-
-        const user = await res.data;
-
-        if (res.status === 200 && user) {
-          return user;
-        } else {
-          return null;
+      async session({ session, token }) {
+        if (token) {
+          // Añadir el token al objeto de sesión
+          //session.accessToken=token.accessToken;
         }
+        return session;
       },
-    }),
-  ], //fin del providers
-  pages: {
-    signIn: "/auth/signin",
-    signOut: "/auth/signout",
-  },
-});
-
-export { handler as GET, handler as POST };
+    },
+  
+    providers: [
+      CredentialsProvider({
+        name: "Credentials",
+        credentials: {
+          username: { label: "Username", type: "text" },
+          password: { label: "Password", type: "password" },
+        },
+  
+        async authorize(credentials) {
+          if (!credentials) return null;
+  
+          const res = await axios.post("/api/auth/login", {
+            body: JSON.stringify({
+              username: credentials?.username,
+              password: credentials?.password,
+            }),
+          });
+  
+          const user = await res.data;
+  
+          if (res.status === 200 && user) {
+            return user;
+          } else {
+            return null;
+          }
+        },
+      }),
+    ], //fin del providers
+    pages: {
+      signIn: "/auth/signin",
+      signOut: "/auth/signout",
+    },
+  });
+  
+  export { handler as GET, handler as POST };
+*/
 
 /*
 

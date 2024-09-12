@@ -27,12 +27,11 @@ function RootLayout({
           {/**
            * SessionProvider de nextAuth
            *
-           *
+             <SessionProvider>
+             </SessionProvider>
            */}
 
-          <SessionProvider>
-            <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
-          </SessionProvider>
+          <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
         </div>
       </body>
     </html>
