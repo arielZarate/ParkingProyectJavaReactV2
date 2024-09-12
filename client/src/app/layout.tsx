@@ -1,8 +1,10 @@
 "use client";
 import "@/css/satoshi.css";
 import "@/css/style.css";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
+import AuthProvider from "@/context/auth/AuthProviders";
+import { SessionProvider } from "next-auth/react";
 
 function RootLayout({
   children,
@@ -22,9 +24,9 @@ function RootLayout({
     <html lang="es">
       <body suppressHydrationWarning={true}>
         <div className="min-w-max dark:bg-boxdark-2 dark:text-bodydark">
-          {loading ? <Loader /> : children}
-
-          {/** <Suspense>{children}</Suspense> */}
+          <SessionProvider>
+            <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
+          </SessionProvider>
         </div>
       </body>
     </html>

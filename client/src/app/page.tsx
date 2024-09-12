@@ -1,12 +1,10 @@
-import React, { Suspense } from "react";
+import React from "react";
 import SignInForm from "@/components/FomAuth/SignInForm";
 import DarkModeSwitcher from "@/components/Header/DarkModeSwitcher";
 
 //===============METADATA=======================
 
 import { Metadata } from "next";
-import Loader from "@/components/common/Loader";
-
 export const metadata: Metadata = {
   title: "Parking", // Título general
   description: "Login para ingresar al sistema", // Descripción general del sitio
