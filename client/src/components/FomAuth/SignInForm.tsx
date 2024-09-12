@@ -88,7 +88,7 @@ const SignInForm: React.FC = () => {
                       <MdEmail size={20} color="gray" />
                     </span>
                     {errors.email && (
-                      <p className="m-1 w-96 rounded-sm bg-rose-200 px-4 py-0.5 text-red">
+                      <p className="m-1 w-96 max-w-xs rounded-sm bg-rose-200 px-4 py-0.5 text-red">
                         <span className="px-2"> {errors.email.message}</span>
                       </p>
                     )}
@@ -126,7 +126,7 @@ const SignInForm: React.FC = () => {
                       )}
                     </span>
                     {errors.password && (
-                      <p className="m-1 w-96 rounded-sm bg-rose-200 px-4 py-0.5 text-red">
+                      <p className="m-1 w-full  rounded-sm bg-rose-200 px-4 py-0.5 text-red">
                         <span className="px-2"> {errors.password.message}</span>
                       </p>
                     )}
