@@ -1,5 +1,5 @@
 // colorEnum.ts
-export enum COLOR {
+enum COLOR {
   UNKNOW = "Desconocido",
   RED = "Rojo",
   BLUE = "Azul",

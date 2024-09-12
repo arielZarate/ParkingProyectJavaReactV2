@@ -1,6 +1,8 @@
+import AUTH_STATUS from "@/enum/authStatus";
+
 interface IAuthContextType {
   user: any; //ver esto
-  status: "loading" | "authenticated" | "unauthenticated";
+  status: AUTH_STATUS;
 }
 
 export default IAuthContextType;

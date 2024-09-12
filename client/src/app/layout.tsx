@@ -24,6 +24,12 @@ function RootLayout({
     <html lang="es">
       <body suppressHydrationWarning={true}>
         <div className="min-w-max dark:bg-boxdark-2 dark:text-bodydark">
+          {/**
+           * SessionProvider de nextAuth
+           *
+           *
+           */}
+
           <SessionProvider>
             <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
           </SessionProvider>

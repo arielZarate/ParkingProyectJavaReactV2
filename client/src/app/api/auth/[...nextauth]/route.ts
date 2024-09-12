@@ -1,9 +1,33 @@
-// pages/api/auth/[...nextauth].ts
 import NextAuth from "next-auth";
 import { axios } from "@/config/axiosConfig";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export default NextAuth({
+const handler = NextAuth({
+  //secret: process.env.NEXTAUTH_SECRET, // Asegúrate de tener esta variable en tus variables de entorno
+  session: {
+    strategy: "jwt", //usar JWT como strategy de sesion
+  },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.id;
+      }
+
+      /** if (user?.token) {
+        token.accessToken = user.token; // Guardar el JWT en el token
+      } */
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        // Añadir el token al objeto de sesión
+        //session.accessToken=token.accessToken;
+      }
+      return session;
+    },
+  },
+
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -29,14 +53,6 @@ export default NextAuth({
         } else {
           return null;
         }
-
-        /**  if (response.status === 200) {
-          return {
-            token: response.data.token, // Token generado por el backend
-            user: response.data.user,  // Datos del usuario
-          };
-        }
-        return null; */
       },
     }),
   ], //fin del providers
@@ -44,8 +60,11 @@ export default NextAuth({
     signIn: "/auth/signin",
     signOut: "/auth/signout",
   },
+});
 
-  /*
+export { handler as GET, handler as POST };
+
+/*
 
 JWT Tokens: NextAuth genera automáticamente un JWT cuando defines 
 la estrategia session: { strategy: "jwt" } en la configuración. 
@@ -76,28 +95,3 @@ token y los datos de la sesión antes de que sean enviados al cliente.
     },
   },
 */
-
-  session: {
-    strategy: "jwt", //usar JWT como strategy de sesion
-  },
-
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.accessToken = user.id;
-      }
-
-      /** if (user?.token) {
-        token.accessToken = user.token; // Guardar el JWT en el token
-      } */
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        // Añadir el token al objeto de sesión
-        //session.accessToken=token.accessToken;
-      }
-      return session;
-    },
-  },
-});

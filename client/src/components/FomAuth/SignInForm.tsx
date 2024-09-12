@@ -1,10 +1,34 @@
+"use client";
+
 import React, { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdEmail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import LoginSchema from "@/utils/loginSchema";
+import * as z from "zod";
+
+// Definimos el tipo de los datos usando Zod
+type TypeLogin = z.infer<typeof LoginSchema>;
+
 const SignInForm: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TypeLogin>({
+    resolver: zodResolver(LoginSchema),
+  });
+
+  //{  resolver: zodResolver(LoginSchema),}
+  const sendLogin = async (data: TypeLogin) => {
+    console.log("Datos enviados:", data);
+    // Aquí puedes manejar la autenticación con NextAuth
+  };
+
   return (
     <>
       <div className="mx-auto  max-w-6xl rounded-sm border border-stroke bg-white  shadow-default dark:border-strokedark dark:bg-boxdark md:my-10">
@@ -43,7 +67,7 @@ const SignInForm: React.FC = () => {
                 Inicio de Sesión
               </h2>
 
-              <form>
+              <form onSubmit={handleSubmit(sendLogin)}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Correo
@@ -53,12 +77,16 @@ const SignInForm: React.FC = () => {
                       type="email"
                       placeholder="Ingrese su correo"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-secondary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-secondary"
+                      {...register("email")}
                     />
 
                     <span className="absolute right-4 top-4">
                       <MdEmail size={20} color="gray" />
                     </span>
                   </div>
+                  {errors.email && (
+                    <p className="text-red-500 mt-1">{errors.email.message}</p>
+                  )}
                 </div>
 
                 <div className="mb-6">
@@ -70,18 +98,24 @@ const SignInForm: React.FC = () => {
                       type="password"
                       placeholder="Debe tener min 8 caracteres , 1 Mayuscula y un caracter especial"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-secondary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-secondary"
+                      {...register("password")}
                     />
 
                     <span className="absolute right-4 top-4">
                       <CiLock size={20} color="gray" />
                     </span>
                   </div>
+                  {errors.password && (
+                    <p className="text-red-500 mt-1">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <Link href={"/home"} className="mb-5">
+                  <Link href={"#"} className="mb-5">
                     <button
-                      type="button"
+                      type="submit"
                       className="w-full cursor-pointer rounded-lg border border-secondary bg-secondary p-4 font-bold text-white transition hover:bg-opacity-90"
                     >
                       Iniciar Sesion
