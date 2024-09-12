@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import IAuthContextType from "@/interfaces/IAuthContextType";
 
-export const AuthContext = createContext<AuthContextType | undefined>(
+export const AuthContext = createContext<IAuthContextType | undefined>(
   undefined,
 );
 
