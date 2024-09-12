@@ -1,10 +1,10 @@
-# Parking protect React Java V2
+# Parking project React Java V2
 
 Proyecto creado para implementar un modelo de negocio de un sistema para gestionar el parking de automoviles y motocicletas de estacionamiento.
 
-Esta nueva version del proyecto diferencia en cambios de la manipulacion de datos desde el back , en esta nueva version se devolvera desde el back todos los parkings Paginados y ordenados tanto si se buscan por licencia o estado del parking. 😀
+Esta nueva version del proyecto diferencia en cambios de la manipulacion de datos desde el back ,se devolvera desde el back todos los parkings Paginados y/o ordenados tanto si se buscan por licencia o estado del parking, Ademas se pueden aplicar orden Ascendente o Descendente , por estado , tipo vehiculo y cuenta con una barra de busqueda por matricula 😀
 
-## Tecnoclogias usadas
+## Tecnologias usadas
 
 - Backend: java
 - FrontEnd: React
@@ -82,6 +82,10 @@ Esta nueva version del proyecto diferencia en cambios de la manipulacion de dato
 - Reportes y Estadísticas:
 
   Implementa reportes que muestren las estadísticas de ocupación y los ingresos del estacionamiento. Puedes hacer esto mediante consultas SQL personalizadas o utilizando las capacidades de JPA.(no se si se implementara)
+
+  ## Diagrama de UML
+
+  ![diagrama](./imgOfreadme/diagramaUML.png)
 
 ## Reportes de google
 
