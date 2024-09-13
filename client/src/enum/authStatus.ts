@@ -1,7 +1,4 @@
-enum AUTH_STATUS {
-  AUTHENTICATED = "authenticated",
-  UNAUTHENTICATED = "unauthenticated",
-  LOADING = "loading",
-}
+// Define el tipo de status como una unión de literales
+type AuthStatus = "authenticated" | "unauthenticated" | "loading";
 
-export default AUTH_STATUS;
+export default AuthStatus;

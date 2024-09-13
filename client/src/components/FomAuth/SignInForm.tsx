@@ -4,9 +4,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdEmail } from "react-icons/md";
-import { CiLock } from "react-icons/ci";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
+//esta funcion es de nextAuth para pasar los datos al credentials
+import { signIn } from "next-auth/react";
+import handleServiceError from "@/utils/handleServiceError";
 
 interface LoginType {
   email: string;
@@ -20,13 +24,37 @@ const SignInForm: React.FC = () => {
   } = useForm<LoginType>();
 
   const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
-
+  const router = useRouter();
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   const sendLogin = async (data: LoginType) => {
-    console.log("Datos enviados:", data);
-    // Aquí puedes manejar la autenticación con NextAuth
+    // console.log("Datos enviados:", data);
+
+    try {
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        console.log("Usuario o contraseña incorrectos"); // Muestra un mensaje de error
+        //usar un toast para enviar una notificacion de erorr
+
+        alert("Usuario o contraseña incorrectos");
+      } else {
+        // Redirigir al usuario a la página que quieras después del login exitoso
+
+        alert("usuario autentificado");
+        setTimeout(() => {
+          router.push("/home");
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+      handleServiceError(error);
+    }
   };
 
   return (
@@ -39,7 +67,7 @@ const SignInForm: React.FC = () => {
                 Sistema de Parking
               </h1>
 
-              <Link className="mb-5.5 inline-block" href="/">
+              <div className="mb-5.5 inline-block">
                 <Image
                   className="hidden dark:block"
                   src={"/images/logo/logo.svg"}
@@ -54,7 +82,7 @@ const SignInForm: React.FC = () => {
                   width={600}
                   height={200}
                 />
-              </Link>
+              </div>
             </div>
           </div>
 

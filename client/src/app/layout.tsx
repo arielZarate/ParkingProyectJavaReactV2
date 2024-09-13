@@ -30,8 +30,9 @@ function RootLayout({
              <SessionProvider>
              </SessionProvider>
            */}
-
-          <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
+          <SessionProvider>
+            <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
+          </SessionProvider>
         </div>
       </body>
     </html>

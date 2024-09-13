@@ -1,16 +1,53 @@
-/*
-
 import NextAuth from "next-auth";
 import { axios } from "@/config/axiosConfig";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+
+      async authorize(credentials) {
+        if (!credentials) return null;
+
+        const res = await axios.post("/api/auth/login", {
+          body: JSON.stringify({
+            email: credentials?.email,
+            password: credentials?.password,
+          }),
+        });
+
+        const user = await res.data;
+
+        if (res.status === 200 && user) {
+          return user;
+        } else {
+          return null;
+        }
+      },
+    }),
+  ], //fin del providers
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+  },
+
+  //==============otras opciones=============
+
   //secret: process.env.NEXTAUTH_SECRET, // Asegúrate de tener esta variable en tus variables de entorno
   session: {
     strategy: "jwt", //usar JWT como strategy de sesion
   },
 
-  callbacks: {
+  /*
+  
+  
+   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.id;
@@ -29,43 +66,10 @@ const handler = NextAuth({
         return session;
       },
     },
-  
-    providers: [
-      CredentialsProvider({
-        name: "Credentials",
-        credentials: {
-          username: { label: "Username", type: "text" },
-          password: { label: "Password", type: "password" },
-        },
-  
-        async authorize(credentials) {
-          if (!credentials) return null;
-  
-          const res = await axios.post("/api/auth/login", {
-            body: JSON.stringify({
-              username: credentials?.username,
-              password: credentials?.password,
-            }),
-          });
-  
-          const user = await res.data;
-  
-          if (res.status === 200 && user) {
-            return user;
-          } else {
-            return null;
-          }
-        },
-      }),
-    ], //fin del providers
-    pages: {
-      signIn: "/auth/signin",
-      signOut: "/auth/signout",
-    },
-  });
-  
-  export { handler as GET, handler as POST };
-*/
+  */
+});
+
+export { handler as POST };
 
 /*
 

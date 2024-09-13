@@ -1,8 +1,8 @@
-import AUTH_STATUS from "@/enum/authStatus";
+import AuthStatus from "@/enum/authStatus";
 
 interface IAuthContextType {
   user: any; //ver esto
-  //status: AUTH_STATUS;
+  status: AuthStatus;
 }
 
 export default IAuthContextType;
