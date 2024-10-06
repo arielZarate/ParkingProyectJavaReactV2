@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig {
+public class CorsConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -16,8 +16,9 @@ public class WebConfig {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:3000")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*") //permite todos los emcabezados
-                        .allowCredentials(true); //permite el uso de cookies y encabezados de auteticacion
+                        .allowedHeaders("Authorization", "Content-Type") //permite todos los emcabezados
+                        .maxAge(3600);  // Tiempo máximo en cache para las opciones pre-flight
+                       // .allowCredentials(true); //permite el uso de cookies y encabezados de auteticacion
             }
         };
     }
