@@ -30,8 +30,7 @@ const SignInForm: React.FC = () => {
   };
   const sendLogin = async (data: LoginType) => {
     // console.log("Datos enviados:", data);
-
-    try {
+    /**try {
       const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
@@ -54,7 +53,7 @@ const SignInForm: React.FC = () => {
     } catch (error) {
       console.log(error);
       handleServiceError(error);
-    }
+    } */
   };
 
   return (
@@ -161,14 +160,14 @@ const SignInForm: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mb-5">
+                <Link href={"/home"} className="mb-5">
                   <button
                     type="submit"
                     className="w-full cursor-pointer rounded-lg border border-secondary bg-secondary p-4 font-bold text-white transition hover:bg-opacity-90"
                   >
                     Iniciar Sesion
                   </button>
-                </div>
+                </Link>
 
                 {/*
                 

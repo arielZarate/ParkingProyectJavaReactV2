@@ -1,12 +1,15 @@
 package com.parking.backend.Models;
 
 import com.parking.backend.Enum.ROLE;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.*;
-
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -16,7 +19,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Employee extends User implements Serializable {
+public class Employee extends User {
 
    @Column(name="email", nullable = false, unique = true)
     private String email;
