@@ -36,7 +36,7 @@ public abstract class User implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role_user", nullable = false)
-    private ROLE roleUser = ROLE.USER; // default value is user
+    private ROLE roleUser = ROLE.ROLE_USER; // default value is user
 
 
     /*

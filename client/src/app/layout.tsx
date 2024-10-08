@@ -4,7 +4,7 @@ import "@/css/style.css";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/common/Loader";
 import AuthProvider from "@/context/auth/AuthProviders";
-import { SessionProvider } from "next-auth/react";
+//import { SessionProvider } from "next-auth/react";
 
 function RootLayout({
   children,
@@ -24,15 +24,7 @@ function RootLayout({
     <html lang="es">
       <body suppressHydrationWarning={true}>
         <div className="min-w-max dark:bg-boxdark-2 dark:text-bodydark">
-          {/**
-           * SessionProvider de nextAuth
-           *
-             <SessionProvider>
-             </SessionProvider>
-           */}
-          <SessionProvider>
-            <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
-          </SessionProvider>
+          <AuthProvider>{loading ? <Loader /> : children}</AuthProvider>
         </div>
       </body>
     </html>

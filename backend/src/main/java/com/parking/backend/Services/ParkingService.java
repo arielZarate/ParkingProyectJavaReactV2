@@ -18,7 +18,7 @@ import com.parking.backend.Models.Employee;
 import com.parking.backend.Models.Parking;
 import com.parking.backend.Models.Rate;
 import com.parking.backend.Models.Vehicle;
-import com.parking.backend.Repositories.ParkingRepository;
+import com.parking.backend.Repository.ParkingRepository;
 
 @Service
 

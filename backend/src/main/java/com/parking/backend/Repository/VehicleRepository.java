@@ -1,4 +1,4 @@
-package com.parking.backend.Repositories;
+package com.parking.backend.Repository;
 
 import com.parking.backend.Models.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.parking.backend.config;
+package com.parking.backend.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +14,9 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000")
+                        .allowedOrigins("*") //http://localhost:3000
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("Authorization", "Content-Type") //permite todos los emcabezados
+                       .allowedHeaders("Authorization", "Content-Type") //permite todos los emcabezados
                         .maxAge(3600);  // Tiempo máximo en cache para las opciones pre-flight
                        // .allowCredentials(true); //permite el uso de cookies y encabezados de auteticacion
             }

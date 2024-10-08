@@ -46,7 +46,8 @@ public class Employee extends User implements UserDetails {
     // FetchType.LAZY)
     // private List<Parking> parkings;
 
-    // =======SOBRECARGA ==========
+
+/**    // =======SOBRECARGA ==========
     public Employee(String email, String password, ROLE roleUser) {
         super(roleUser);
         this.email = email;
@@ -54,12 +55,13 @@ public class Employee extends User implements UserDetails {
     }
 
     // =======SOBRECARGA ==========
-    public Employee(Long id, String fullName, String dni, String phoneNumber, ROLE roleUser, String email,
-            String password) {
+    public Employee( Long id,String fullName, String dni, String phoneNumber, ROLE roleUser, String email,
+        String password) {
         super(id, fullName, dni, phoneNumber, roleUser);
         this.email = email;
         this.password = password;
     }
+ */
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

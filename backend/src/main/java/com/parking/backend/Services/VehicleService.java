@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Exceptions.CustomException;
 import com.parking.backend.Models.Vehicle;
-import com.parking.backend.Repositories.VehicleRepository;
+import com.parking.backend.Repository.VehicleRepository;
 import com.parking.backend.Utils.LicencePlateGenerator;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class VehicleService {
@@ -83,7 +85,7 @@ public class VehicleService {
 
     // Obtener una tarifa por ID NO ES USUAL QUE SE BUSQUE POR ID MAS QUE NADA POR
     // TYPE DE VEHICULO
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public Optional<Vehicle> findVehicleById(Long id) {
         try {
             return this.vehicleRepository.findById(id);
@@ -96,7 +98,7 @@ public class VehicleService {
     }
 
     // Eliminar un vehículo por ID
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public boolean deleteById(Long id) {
         // Buscar el vehículo por ID
         Optional<Vehicle> vehicleOptional = findVehicleById(id);

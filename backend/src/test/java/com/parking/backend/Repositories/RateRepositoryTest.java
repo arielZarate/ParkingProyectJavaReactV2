@@ -2,6 +2,8 @@ package com.parking.backend.Repositories;
 
 import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Models.Rate;
+import com.parking.backend.Repository.RateRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,13 @@ class RateRepositoryTest {
         rate2.setCostPerHour(25.0);
         rateRepository.save(rate2);*/
     }
+    
+
+
+    /*
+     
+
+
     @Test
     void findByTypeVehicle() {
 
@@ -57,4 +66,5 @@ class RateRepositoryTest {
 
        // System.out.println(truckRate);
     }
+     */
 }

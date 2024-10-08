@@ -1,4 +1,13 @@
 // Define el tipo de status como una unión de literales
-type AuthStatus = "authenticated" | "unauthenticated" | "loading";
+
+
+enum AuthStatus{
+    AUTHENTICATED="AUTHENTICATED",
+    UNAUTHENTICATED='UNAUTHENTICATED'
+    }
+    
+    
+  
+
 
 export default AuthStatus;

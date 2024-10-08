@@ -1,4 +1,4 @@
-package com.parking.backend.Repositories;
+package com.parking.backend.Repository;
 
 import java.util.List;
 import java.util.Optional;

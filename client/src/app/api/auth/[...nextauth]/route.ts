@@ -1,3 +1,5 @@
+/*
+
 import NextAuth from "next-auth";
 import { axios } from "@/config/axiosConfig";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -7,23 +9,22 @@ const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
+
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
         if (!credentials) return null;
 
         const res = await axios.post("/api/auth/login", {
-          body: JSON.stringify({
-            email: credentials?.email,
-            password: credentials?.password,
-          }),
+          email: credentials?.email,
+          password: credentials?.password,
         });
 
         const user = await res.data;
 
+        console.log("neextAuth", user);
         if (res.status === 200 && user) {
           return user;
         } else {
@@ -40,37 +41,38 @@ const handler = NextAuth({
   //==============otras opciones=============
 
   //secret: process.env.NEXTAUTH_SECRET, // Asegúrate de tener esta variable en tus variables de entorno
+
   session: {
     strategy: "jwt", //usar JWT como strategy de sesion
   },
 
-  /*
-  
-  
-   callbacks: {
+  callbacks: {
     async jwt({ token, user }) {
+  
       if (user) {
-        token.accessToken = user.id;
+        (token.id = user.id as number),
+          (token.role = user.role as string),
+          (token.email = user.email as string),
+          (token.token = user.token as string);
       }
-
-     if (user?.token) {
-        token.accessToken = user.token; // Guardar el JWT en el token
-      } 
-        return token;
-      },
-      async session({ session, token }) {
-        if (token) {
-          // Añadir el token al objeto de sesión
-          //session.accessToken=token.accessToken;
-        }
-        return session;
-      },
+      return token; // Retorna el token actualizado
     },
-  */
+    async session({ session, token }) {
+ 
+      session.user = {
+        id: token.id as number,
+        role: token.role as string,
+        email: token.email as string,
+        token: token.token as string,
+      };
+      return session; // Retorna la sesión actualizada
+    },
+  },
 });
 
-export { handler as POST };
+export { handler as POST, handler as GET };
 
+*/
 /*
 
 JWT Tokens: NextAuth genera automáticamente un JWT cuando defines 

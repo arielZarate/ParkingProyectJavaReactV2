@@ -2,7 +2,8 @@ package com.parking.backend.Services;
 
 import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Models.Rate;
-import com.parking.backend.Repositories.RateRepository;
+import com.parking.backend.Repository.RateRepository;
+
 import org.apache.catalina.filters.RemoteIpFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

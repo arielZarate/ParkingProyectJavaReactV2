@@ -1,25 +1,29 @@
 import React, { createContext, ReactNode, useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import IAuthContextType from "@/interfaces/IAuthContextType";
+
+import { IAuthContextType, loginProp } from "@/interfaces/IAuthContextType";
+import HookAuthProviders from "./hookAuthProviders";
 
 export const AuthContext = createContext<IAuthContextType | undefined>(
   undefined,
 );
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { data: session, status } = useSession(); //hook de nextAuth
-  const [user, setUser] = useState<any>(null);
+  const { user, loginService ,status,handleLogout} = HookAuthProviders();
+  console.log("Hook providers", user);
 
-  //hook que se carga y setea dependiendo de la session
-
-  useEffect(() => {
-    if (session) {
-      setUser(session.user);
+  const handleLogin = async (data: loginProp) => {
+    const result = await loginService(data);
+    if (result) {
+      
+    return result;
     }
-  }, [session]);
+    else {
+      return null ;
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, status }}>
+    <AuthContext.Provider value={{ user, handleLogin,status,handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

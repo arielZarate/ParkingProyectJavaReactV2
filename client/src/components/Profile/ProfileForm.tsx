@@ -1,8 +1,10 @@
+'use client '
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CiCamera } from "react-icons/ci";
-type Props = {};
+import useHookAuthContext from "@/context/auth/useHookAuthContext";
 
 const employee = {
   fullName: "Danish Heilium",
@@ -15,7 +17,10 @@ const employee = {
   coverImage: "/images/cover/cover-01.png",
 };
 
-const ProfileForm = (props: Props) => {
+const ProfileForm = () => {
+ // const { user, status } = useHookAuthContext();
+
+
   return (
     <>
       <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

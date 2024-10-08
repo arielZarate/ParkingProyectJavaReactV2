@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Exceptions.CustomException;
 import com.parking.backend.Models.Rate;
-import com.parking.backend.Repositories.RateRepository;
+import com.parking.backend.Repository.RateRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 
@@ -23,7 +25,7 @@ public class RateService {
 
 
     // Crear o actualizar una tarifa
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     //rates puede recibir tanto un solo Objeto o una lista de tarifas a actualizar con su tipo
     public List<Rate> saveOrUpdateRate(List<Rate> rateList) {
         try{
@@ -94,7 +96,7 @@ public class RateService {
 
 
     // Obtener una tarifa por ID NO ES USUAL QUE SE BUSQUE POR ID MAS QUE NADA POR TYPE DE VEHICULO
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public Optional<Rate> findById(Long id) {
         try{
             return this.rateRepository.findById(id);
@@ -133,7 +135,7 @@ public class RateService {
 
     }
     // Eliminar una tarifa por ID
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public boolean deleteById(Long id) {
        // rateRepository.deleteById(id);
         try{

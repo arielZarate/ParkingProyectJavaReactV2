@@ -7,9 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-
-//esta funcion es de nextAuth para pasar los datos al credentials
-import { signIn } from "next-auth/react";
+import useHookAuthContext from "@/context/auth/useHookAuthContext";
 import handleServiceError from "@/utils/handleServiceError";
 
 interface LoginType {
@@ -17,6 +15,8 @@ interface LoginType {
   password: string;
 }
 const SignInForm: React.FC = () => {
+  const { handleLogin } = useHookAuthContext();
+
   const {
     register,
     handleSubmit,
@@ -30,30 +30,23 @@ const SignInForm: React.FC = () => {
   };
   const sendLogin = async (data: LoginType) => {
     // console.log("Datos enviados:", data);
-    /**try {
-      const result = await signIn("credentials", {
+    try {
+      const user = await handleLogin({
         email: data.email,
         password: data.password,
-        redirect: false,
       });
-
-      if (result?.error) {
-        console.log("Usuario o contraseña incorrectos"); // Muestra un mensaje de error
-        //usar un toast para enviar una notificacion de erorr
-
-        alert("Usuario o contraseña incorrectos");
-      } else {
-        // Redirigir al usuario a la página que quieras después del login exitoso
-
-        alert("usuario autentificado");
+      if (user) {
+        alert("login exitoso");
         setTimeout(() => {
           router.push("/home");
-        }, 1000);
+        }, 1200);
+      } else {
+        console.log("Usuario o contraseña incorrectos"); // Muestra un mensaje
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       handleServiceError(error);
-    } */
+    }
   };
 
   return (
@@ -160,14 +153,14 @@ const SignInForm: React.FC = () => {
                   </div>
                 </div>
 
-                <Link href={"/home"} className="mb-5">
+                <div className="mb-5">
                   <button
                     type="submit"
                     className="w-full cursor-pointer rounded-lg border border-secondary bg-secondary p-4 font-bold text-white transition hover:bg-opacity-90"
                   >
                     Iniciar Sesion
                   </button>
-                </Link>
+                </div>
 
                 {/*
                 
