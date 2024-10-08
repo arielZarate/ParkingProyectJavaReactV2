@@ -9,13 +9,13 @@ import SelectSort from "../Filter/SelectSort";
 import SelectStatusVehicle from "../Filter/SelectStatusVehicle";
 import SelectTypeVehicle from "../Filter/SelectTypeVehicle";
 import Pagination from "../Pagination/Pagination";
+
+
 //import useToast from "../ToastMessage/useToast";
 
 const TableParking: React.FC = () => {
   const { parkings, loading, resetFilter } = useHookParkingContext();
-  //const {}=parkings;
 
-  //console.log("hook\n",parkings)
 
   if (loading) {
     return <Loader />;
@@ -49,8 +49,8 @@ const TableParking: React.FC = () => {
             <table className="w-full table-auto">
               <thead>
                 <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                  {/* <th className="min-w-[40px] px-1 py-2 font-medium text-black dark:text-white xl:pl-11">
-                    ID
+                 {/* <th className="min-w-[20px] px-1 py-2 font-medium text-black dark:text-white xl:pl-11">
+                    IdEmpleado
                   </th> */}
                   <th className="min-w-[80px] px-2 py-2 font-medium text-black dark:text-white xl:pl-11">
                     Patente
@@ -79,6 +79,12 @@ const TableParking: React.FC = () => {
               <tbody>
                 {parkings?.content.map((parking) => (
                   <tr key={parking.id}>
+                  {/*  <td className="border-b border-[#eee] px-2 py-4 pl-5 dark:border-strokedark xl:pl-11">
+                      <h5 className="font-medium text-black dark:text-white">
+                        {idEmployee}
+                      </h5>
+                    </td> */}
+
                     <td className="border-b border-[#eee] px-2 py-4 pl-5 dark:border-strokedark xl:pl-11">
                       <h5 className="font-medium text-black dark:text-white">
                         {parking.vehicle.licencePlate}

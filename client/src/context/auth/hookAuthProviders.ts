@@ -41,7 +41,7 @@ const HookAuthProviders = () => {
   useEffect(() => {
     // Aquí puedes agregar lógica adicional si es necesario
     // Por ejemplo, manejar el estado de inicio de sesión o loguear el usuario
-    if (user?.token) {
+    if (user) {
       setStatus(AuthStatus.AUTHENTICATED);
     } else {
       setStatus(AuthStatus.UNAUTHENTICATED);

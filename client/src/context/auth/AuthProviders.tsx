@@ -9,8 +9,9 @@ export const AuthContext = createContext<IAuthContextType | undefined>(
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { user ,status,handleLogout,handleLogin } = HookAuthProviders();
-  console.log("Hook providers", user);
-  console.log("Hook Status", status);
+  //console.log("Hook providers", user);
+  //console.log("Hook Status", status);
+
 
 
 

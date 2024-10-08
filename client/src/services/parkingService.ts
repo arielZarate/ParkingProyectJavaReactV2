@@ -4,8 +4,10 @@ import { axios } from "@/config/axiosConfig";
 import { IParking } from "@/interfaces/IParking";
 import { ISaveParkingProp } from "@/interfaces/ISaveParkingProp";
 import handleServiceError from "@/utils/handleServiceError";
-import { headerOptions } from "@/config/JwtTokenUtils";
+import { getDecodedToken, headerOptions } from "@/config/JwtTokenUtils";
 
+
+const {id}=getDecodedToken();
 const optionsHeaders = headerOptions();
 
 export const fetchParkings = async (): Promise<IParking[]> => {
@@ -26,7 +28,7 @@ export const fetchParkings = async (): Promise<IParking[]> => {
 
 //===========================================
 //debo importar el id del empleado cuando este logueado
-const employeeId = 1;
+const employeeId = id;
 //========================================
 
 export const postParkings = async (
