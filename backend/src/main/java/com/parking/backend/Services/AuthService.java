@@ -106,18 +106,18 @@ public class AuthService {
             // ===========================================================================
 
             // Generar el token JWT
-            String token = jwtTokenUtil.generateToken(authenticatedUser.getEmail(),
+            String token = jwtTokenUtil.generateToken(authenticatedUser.getId(), authenticatedUser.getEmail(),
                     authenticatedUser.getRoleUser().name());
-             System.out.println("Token generado: " + token);
-             System.out.println("ROL ASIGNADO: " + authenticatedUser.getRoleUser().name());
-
+            System.out.println("Token generado: " + token);
+            System.out.println("ROL ASIGNADO: " + authenticatedUser.getRoleUser().name());
+            System.out.println("ID"+ authenticatedUser.getId());
             // Retornar más detalles junto con el token
             // cada hashMap tieene clave:string ,valor :object
             Map<String, Object> response = new HashMap<>();
             // response.put("token", token);
-            response.put("id",authenticatedUser.getId());
-            response.put("email", authenticatedUser.getEmail());
-            response.put("role", authenticatedUser.getRoleUser().name());
+           // response.put("id", authenticatedUser.getId());
+           // response.put("email", authenticatedUser.getEmail());
+            //response.put("role", authenticatedUser.getRoleUser().name());
             response.put("token", token);
             return response;
 

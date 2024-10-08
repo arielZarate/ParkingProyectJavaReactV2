@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "./AuthProviders";
-import IAuthContextType from "@/interfaces/IAuthContextType";
+import {IAuthContextType} from "@/interfaces/IAuthContextType";
 
 //debo declarar un typo de devolicion que es user y un status
 const useHookAuthContext = (): IAuthContextType => {

@@ -22,8 +22,9 @@ public class JwtTokenUtil implements Serializable {
     private  long EXPIRATION_TIME = 1000 * 60 * 60 * 9; // 9 hora en milisegundos
 
     // Generar el token JWT
-    public String generateToken(String email, String role) {
+    public String generateToken(Long id, String email, String role) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", id);
         claims.put("role", role);
         return createToken(claims, email);
     }

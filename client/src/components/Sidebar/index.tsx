@@ -7,7 +7,8 @@ import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-
+import useHookAuthContext from "@/context/auth/useHookAuthContext";
+import { useRouter } from "next/navigation";
 //===============REACT-ICONS===================
 import {
   FaArrowAltCircleLeft,
@@ -123,7 +124,7 @@ const menuGroups = [
       },
       {
         icon: <MdLogin size={20} color="white" />,
-        label: "Salir",
+        label: "Cerrar Sesion",
         route: "/",
       },
     ],
@@ -134,6 +135,13 @@ const menuGroups = [
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+  const { handleLogout } = useHookAuthContext();
+  const router = useRouter();
+
+  const logoutAndRedirect = async () => {
+    await handleLogout(); // Ejecuta la función de cierre de sesión
+    router.push("/"); // Redirige a la ruta "/"
+  };
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -176,12 +184,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                 <ul className="mb-6 flex flex-col gap-1.5">
                   {group.menuItems.map((menuItem, menuIndex) => (
-                    <SidebarItem
-                      key={menuIndex}
-                      item={menuItem}
-                      pageName={pageName}
-                      setPageName={setPageName}
-                    />
+                    <li key={menuIndex}>
+                      {menuItem.label === "Cerrar Sesion" ? (
+                        <button
+                          onClick={logoutAndRedirect}
+                          className={`flex items-center gap-1 w-full  rounded-sm px-4 py-2.5 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-skyDark group relative dark:hover:bg-meta-4`}
+                        >
+                         <p> {menuItem.icon}</p>
+                          <p className="ml-1 text-white py-0">{menuItem.label}</p>
+                        </button>
+                      ) : (
+                        <>
+                          <SidebarItem
+                            item={menuItem}
+                            pageName={pageName}
+                            setPageName={setPageName}
+                          />
+                        </>
+                      )}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -195,3 +216,4 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 };
 
 export default Sidebar;
+

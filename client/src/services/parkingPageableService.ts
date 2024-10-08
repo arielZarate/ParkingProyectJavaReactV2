@@ -3,6 +3,9 @@ import STATUS_VEHICLE from "@/enum/statusVehicle";
 import TYPE_VEHICLE from "@/enum/typeVehicle";
 import { IPage, IParking } from "@/interfaces/IParking";
 import handleServiceError from "@/utils/handleServiceError";
+import { headerOptions } from "@/config/JwtTokenUtils";
+
+
 
 export const fetchParkingsPageable = async (
   page: number,
@@ -12,6 +15,7 @@ export const fetchParkingsPageable = async (
   typeVehicle?: string,
 ): Promise<IPage<IParking>> => {
   try {
+    const options = headerOptions();
     const response = await axios.get<IPage<IParking>>(`/api/parking/pageable`, {
       params: {
         page,
@@ -22,32 +26,15 @@ export const fetchParkingsPageable = async (
         typeVehicle:
           typeVehicle !== TYPE_VEHICLE.DEFAULT ? typeVehicle : undefined,
       },
+
+    ...options,
     });
     return response.data;
   } catch (error) {
     console.error(error);
     handleServiceError(error);
 
-    return {
-      content: [],
-      pageable: {
-        pageNumber: 0,
-        pageSize: 0,
-        sort: { sorted: false, unsorted: true, empty: true },
-        offset: 0,
-        paged: true,
-        unpaged: false,
-      },
-      totalPages: 0,
-      totalElements: 0,
-      size: 0,
-      number: 0,
-      sort: { sorted: false, unsorted: true, empty: true },
-      first: true,
-      last: false,
-      numberOfElements: 0,
-      empty: true,
-    };
+    return defaultParkingResponse; // Retorna la respuesta por defecto
   }
 };
 
@@ -58,6 +45,8 @@ export const getParkingByLicencePlate = async (
   sort: string,
 ): Promise<IPage<IParking>> => {
   try {
+   const options = headerOptions();
+
     const response = await axios.get<IPage<IParking>>(
       `/api/parking/licencePlatePageable/${licencePlate}`,
       {
@@ -66,6 +55,8 @@ export const getParkingByLicencePlate = async (
           size,
           sort,
         },
+
+       ...options,
       },
     );
     // console.log("response\n",response.data)
@@ -73,27 +64,37 @@ export const getParkingByLicencePlate = async (
   } catch (error) {
     handleServiceError(error);
     console.error(error);
-    handleServiceError(error);
 
-    return {
-      content: [],
-      pageable: {
-        pageNumber: 0,
-        pageSize: 0,
-        sort: { sorted: false, unsorted: true, empty: true },
-        offset: 0,
-        paged: true,
-        unpaged: false,
-      },
-      totalPages: 0,
-      totalElements: 0,
-      size: 0,
-      number: 0,
-      sort: { sorted: false, unsorted: true, empty: true },
-      first: true,
-      last: false,
-      numberOfElements: 0,
-      empty: true,
-    };
+    return defaultParkingResponse; // Retorna la respuesta por defecto
   }
 };
+
+
+
+
+//==========================================
+
+
+// Respuesta por defecto en caso de error
+const defaultParkingResponse: IPage<IParking> = {
+  content: [],
+  pageable: {
+    pageNumber: 0,
+    pageSize: 0,
+    sort: { sorted: false, unsorted: true, empty: true },
+    offset: 0,
+    paged: true,
+    unpaged: false,
+  },
+  totalPages: 0,
+  totalElements: 0,
+  size: 0,
+  number: 0,
+  sort: { sorted: false, unsorted: true, empty: true },
+  first: true,
+  last: false,
+  numberOfElements: 0,
+  empty: true,
+};
+
+//===========================================

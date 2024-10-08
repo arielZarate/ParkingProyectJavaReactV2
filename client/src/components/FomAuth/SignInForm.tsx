@@ -35,11 +35,15 @@ const SignInForm: React.FC = () => {
         email: data.email,
         password: data.password,
       });
+
+
+     // console.log(user)
       if (user) {
-        alert("login exitoso");
+        alert("inicio de session con exito!!");
         setTimeout(() => {
           router.push("/home");
-        }, 1200);
+        }, 1000);
+        return user;
       } else {
         console.log("Usuario o contraseña incorrectos"); // Muestra un mensaje
       }

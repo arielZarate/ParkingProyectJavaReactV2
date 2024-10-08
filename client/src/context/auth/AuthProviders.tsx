@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState, useEffect } from "react";
+import React, { createContext, ReactNode } from "react";
 
 import { IAuthContextType, loginProp } from "@/interfaces/IAuthContextType";
 import HookAuthProviders from "./hookAuthProviders";
@@ -8,19 +8,11 @@ export const AuthContext = createContext<IAuthContextType | undefined>(
 );
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { user, loginService ,status,handleLogout} = HookAuthProviders();
+  const { user ,status,handleLogout,handleLogin } = HookAuthProviders();
   console.log("Hook providers", user);
+  console.log("Hook Status", status);
 
-  const handleLogin = async (data: loginProp) => {
-    const result = await loginService(data);
-    if (result) {
-      
-    return result;
-    }
-    else {
-      return null ;
-    }
-  };
+
 
   return (
     <AuthContext.Provider value={{ user, handleLogin,status,handleLogout }}>

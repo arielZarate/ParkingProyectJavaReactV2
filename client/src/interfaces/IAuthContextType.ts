@@ -10,10 +10,7 @@ import AuthStatus from "@/enum/authStatus";
 
 
 export interface AuthLogin {
-  id: number;
-  role: string;
-  email: string;
-  token: string;
+token: string;
 }
 
 

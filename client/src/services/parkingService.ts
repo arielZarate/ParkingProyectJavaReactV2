@@ -4,34 +4,42 @@ import { axios } from "@/config/axiosConfig";
 import { IParking } from "@/interfaces/IParking";
 import { ISaveParkingProp } from "@/interfaces/ISaveParkingProp";
 import handleServiceError from "@/utils/handleServiceError";
+import { headerOptions } from "@/config/JwtTokenUtils";
 
+const optionsHeaders = headerOptions();
 
 export const fetchParkings = async (): Promise<IParking[]> => {
   try {
-    const response = await axios.get<IParking[]>("/api/parking");
+    const response = await axios.get<IParking[]>("/api/parking", {
+      ...optionsHeaders,
+    });
     const data = response.data;
     //console.log("datos", JSON.stringify(data));
     return data;
   } catch (error) {
-   handleServiceError(error)
+    handleServiceError(error);
 
-   //en caso de error devolver un array
-   return [];
+    //en caso de error devolver un array
+    return [];
   }
 };
 
-
-
-
 //===========================================
 //debo importar el id del empleado cuando este logueado
-const employeeId=1;
+const employeeId = 1;
 //========================================
 
-
-export const postParkings = async (parking:ISaveParkingProp): Promise<IParking | undefined> => {
+export const postParkings = async (
+  parking: ISaveParkingProp,
+): Promise<IParking | undefined> => {
   try {
-    const response = await axios.post<IParking>(`/api/parking/save/${employeeId}`, parking);
+    const response = await axios.post<IParking>(
+      `/api/parking/save/${employeeId}`,
+      parking,
+      {
+        ...optionsHeaders,
+      },
+    );
     //console.log("response\n",response)
     return response.data;
   } catch (error) {
@@ -39,353 +47,36 @@ export const postParkings = async (parking:ISaveParkingProp): Promise<IParking |
   }
 };
 
-
-
-
-export const postFinalizeParkings = async (licencePlate:string): Promise<IParking | undefined> => {
+export const postFinalizeParkings = async (
+  licencePlate: string,
+): Promise<IParking | undefined> => {
   try {
-    const response = await axios.post<IParking>(`/api/parking/finalize/${licencePlate}`);
+    const response = await axios.post<IParking>(
+      `/api/parking/finalize/${licencePlate}`,
+      {},
+      {
+        ...optionsHeaders,
+      },
+    );
     //console.log("response\n",response)
     return response.data;
   } catch (error) {
-      handleServiceError(error);
+    handleServiceError(error);
   }
 };
 
-
-
-export const getParkingByLicencePlate=async(licencePlate:string):Promise<IParking[]> =>{
+export const getParkingByLicencePlate = async (
+  licencePlate: string,
+): Promise<IParking[]> => {
   try {
-    const response = await axios.get<IParking[]>(`/api/parking/licencePlate/${licencePlate}`);
+    const response = await axios.get<IParking[]>(
+      `/api/parking/licencePlate/${licencePlate}`,
+      { ...optionsHeaders },
+    );
     //console.log("response\n",response.data)
     return response.data;
   } catch (error) {
-      handleServiceError(error);
-      return [];
+    handleServiceError(error);
+    return [];
   }
-
-}
-
-
-//==============datos harckodeados============
-export const data = [
-  {
-    id: 1,
-    entryTime: "2024-08-24T11:49:00",
-    exitTime: "2024-08-24T11:50:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 2,
-    entryTime: "2024-08-24T12:05:00",
-    exitTime: "2024-08-24T12:09:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 3,
-    entryTime: "2024-08-24T12:10:00",
-    exitTime: "2024-08-24T12:13:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 4,
-    entryTime: "2024-08-24T12:15:00",
-    exitTime: "2024-08-24T12:17:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 5,
-    entryTime: "2024-08-24T12:17:00",
-    exitTime: "2024-08-24T12:17:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 4,
-    cost: 120.0,
-  },
-  {
-    id: 6,
-    entryTime: "2024-08-24T12:19:00",
-    exitTime: "2024-08-24T12:19:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 7,
-    entryTime: "2024-08-24T12:19:00",
-    exitTime: "2024-08-24T12:21:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 8,
-    entryTime: "2024-08-24T12:22:00",
-    exitTime: "2024-08-24T12:23:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 9,
-    entryTime: "2024-08-24T12:28:00",
-    exitTime: "2024-08-24T12:28:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 10,
-    entryTime: "2024-08-24T12:29:00",
-    exitTime: "2024-08-24T12:31:00",
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "COMPLETED",
-    hours: 0,
-    cost: 40.0,
-  },
-  {
-    id: 11,
-    entryTime: "2024-08-24T12:31:00",
-    exitTime: null,
-    vehicle: {
-      id: 1,
-      typeVehicle: "CAR",
-      licencePlate: "PIT011",
-      color: "BROWN",
-      note: "Vehiclo con espejo derecho roto",
-    },
-    employee: {
-      id: 1,
-      fullName: "juan sanchez",
-      dni: "7458697",
-      phoneNumber: "3314567",
-      roleUser: "EMPLOYEE",
-      email: "juan@gmail.com",
-      password: "Admin1234!",
-    },
-    rate: {
-      id: 1,
-      typeVehicle: "CAR",
-      costPerHour: 40.0,
-    },
-    status: "IN_PROGRESS",
-    hours: 1,
-    cost: 0.0,
-  },
-];
+};
