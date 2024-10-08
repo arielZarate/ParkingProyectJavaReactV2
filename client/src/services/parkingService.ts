@@ -7,8 +7,8 @@ import handleServiceError from "@/utils/handleServiceError";
 import { getDecodedToken, headerOptions } from "@/config/JwtTokenUtils";
 
 
-const {id}=getDecodedToken();
-const optionsHeaders = headerOptions();
+const {id}=getDecodedToken();  //decodifico el token
+const optionsHeaders = headerOptions(); //obtengo el header:Autorization
 
 export const fetchParkings = async (): Promise<IParking[]> => {
   try {

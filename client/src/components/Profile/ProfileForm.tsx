@@ -18,8 +18,10 @@ const employee = {
 };
 
 const ProfileForm = () => {
- // const { user, status } = useHookAuthContext();
+ const { status,user } = useHookAuthContext();
 
+ console.log("Status", status);
+ console.log("user",user)
 
   return (
     <>

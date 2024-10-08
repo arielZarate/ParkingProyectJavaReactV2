@@ -29,7 +29,7 @@ const headerOptions = () => {
     if (!TOKEN) {
       throw new Error("Token no disponible");
     }
-   console.log("TOKEN:", JSON.parse(TOKEN));
+   //console.log("TOKEN:", JSON.parse(TOKEN));
   
     const options = {
       headers: {

@@ -39,13 +39,15 @@ public class SecurityWebConfig {
     http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/register/**", "/api/auth/login/**", "/api/public/**").permitAll()
+            .requestMatchers( "/api/auth/login/**", "/api/public/**").permitAll()
             .requestMatchers("/api/admin/**").hasAuthority(ROLE.ROLE_ADMIN.name())
             // Acceso a controladores específicos
             .requestMatchers("/api/rate/**", "/api/vehicle/**", "/api/parking/**")
             .hasAnyAuthority(ROLE.ROLE_EMPLOYEE.name(), ROLE.ROLE_ADMIN.name())
+            .requestMatchers("/api/employees/id/**", "/api/employees/update/**", "/api/employee/email/**")
+            .hasAuthority(ROLE.ROLE_EMPLOYEE.name())
             .requestMatchers("/api/rate/**", "/api/vehicle/**", "/api/parking/**",
-             "/api/employees/**")
+             "/api/employees/**", "/api/auth/register/**")
             .hasAuthority(ROLE.ROLE_ADMIN.name()) // Solo ADMIN puede acceder
             .anyRequest().authenticated()
 
