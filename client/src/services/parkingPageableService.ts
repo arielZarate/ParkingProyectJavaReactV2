@@ -3,9 +3,7 @@ import STATUS_VEHICLE from "@/enum/statusVehicle";
 import TYPE_VEHICLE from "@/enum/typeVehicle";
 import { IPage, IParking } from "@/interfaces/IParking";
 import handleServiceError from "@/utils/handleServiceError";
-import { headerOptions } from "@/config/JwtTokenUtils";
-
-
+import { headerOptions } from "@/config/headerOptions";
 
 export const fetchParkingsPageable = async (
   page: number,
@@ -27,7 +25,7 @@ export const fetchParkingsPageable = async (
           typeVehicle !== TYPE_VEHICLE.DEFAULT ? typeVehicle : undefined,
       },
 
-    ...options,
+      ...options,
     });
     return response.data;
   } catch (error) {
@@ -45,7 +43,7 @@ export const getParkingByLicencePlate = async (
   sort: string,
 ): Promise<IPage<IParking>> => {
   try {
-   const options = headerOptions();
+    const options = headerOptions();
 
     const response = await axios.get<IPage<IParking>>(
       `/api/parking/licencePlatePageable/${licencePlate}`,
@@ -56,7 +54,7 @@ export const getParkingByLicencePlate = async (
           sort,
         },
 
-       ...options,
+        ...options,
       },
     );
     // console.log("response\n",response.data)
@@ -69,11 +67,7 @@ export const getParkingByLicencePlate = async (
   }
 };
 
-
-
-
 //==========================================
-
 
 // Respuesta por defecto en caso de error
 const defaultParkingResponse: IPage<IParking> = {

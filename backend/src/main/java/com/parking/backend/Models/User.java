@@ -39,6 +39,9 @@ public abstract class User implements Serializable {
     private ROLE roleUser = ROLE.ROLE_USER; // default value is user
 
 
+    @Column(name="bio" ,nullable = true)
+    private String bio; 
+
     /*
     *
     * Campos y Métodos: Los getters y setters en User funcionan correctamente y no

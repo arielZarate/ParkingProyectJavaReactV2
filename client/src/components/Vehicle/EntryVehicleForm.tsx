@@ -10,11 +10,13 @@ import { useForm } from "react-hook-form";
 import validateLicencePlate from "@/utils/validateLicencePlateEntry";
 import { useRouter } from "next/navigation";
 import handlerErrorToast from "../ToastMessage/HandleErrorToast";
+import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
 
 const EntryVehicleForm = () => {
   //useState
   const [typeVehicle, setTypeVehicle] = useState<string>("");
   const router = useRouter(); // Inicializar useRoute
+  const { getDecodedToken } = useHookAuthContext();
   //==============hook de toast=============
   const { setToast, toast, ToastMessage, handleCloseToast } = useToast();
   //=======REACT HOOK FORM==============================
@@ -25,6 +27,10 @@ const EntryVehicleForm = () => {
     setValue, // Añadido para actualizar el valor del campo
   } = useForm<ISaveParkingProp>();
 
+  //=================OBTENER ID EMPLEADO===========================
+  const { id } = getDecodedToken();
+  console.log("employee con ", id);
+  //==================================================================
   //===========funcion saveParking==================
   const saveParking = async (data: ISaveParkingProp) => {
     try {
@@ -40,9 +46,11 @@ const EntryVehicleForm = () => {
         });
         return;
       }
+
       //==================================================================
       //  console.log("antes de enviar los datos", data);
-      const res = await postParkings(data);
+      //esta funcion debe recibir la data y el id del employee que esta logueado que lueogo podra usarse para ver cuantos parking hay por empleado
+      const res = await postParkings(id, data);
 
       if (res != undefined || res != null) {
         setToast({ message: "Parking creado con éxito", type: "success" });

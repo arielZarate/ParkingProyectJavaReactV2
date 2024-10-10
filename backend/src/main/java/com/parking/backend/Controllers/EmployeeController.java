@@ -25,6 +25,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    // Solo ADMIN puede ver todos los empleados
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping(value = "/all")
     public ResponseEntity<List<Employee>> getAllEmployee() {
@@ -34,8 +35,9 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(employees);
 
     }
-    //@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #id == authentication.principal.id")
+
+    // Ambos ADMIN y EMPLOYEE pueden buscar por ID
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     @GetMapping("/{id}")
     public ResponseEntity<?> findEmployeeByID(@PathVariable Long id) {
         Optional<Employee> employeeOptional = this.employeeService.findById(id);
@@ -46,6 +48,10 @@ public class EmployeeController {
 
     }
 
+
+
+     // Ambos ADMIN y EMPLOYEE pueden buscar por email
+   @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     @GetMapping("/email/{email}")
     public ResponseEntity<?> findEmployeeByEmail(@PathVariable String email) {
 
@@ -57,6 +63,11 @@ public class EmployeeController {
 
     }
 
+
+
+
+    // Solo ADMIN puede eliminar un empleado
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         boolean employeeDeleted = this.employeeService.deleteById(id);
@@ -66,6 +77,8 @@ public class EmployeeController {
         return ResponseEntity.ok().body("Usuario Eliminado correctamente");
     }
 
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_EMPLOYEE')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
         Employee employeeUpdated = this.employeeService.update(id, employee);

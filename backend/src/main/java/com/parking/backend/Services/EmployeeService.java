@@ -1,21 +1,18 @@
 package com.parking.backend.Services;
 
-import com.parking.backend.Exceptions.CustomException;
-import com.parking.backend.Models.Employee;
-import com.parking.backend.Repository.EmployeeRepository;
-import com.parking.backend.Security.JwtTokenUtil;
-import com.parking.backend.Utils.ValidateEmployee;
-
-import jakarta.transaction.Transactional;
-
-import com.parking.backend.Enum.ROLE;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.parking.backend.Exceptions.CustomException;
+import com.parking.backend.Models.Employee;
+import com.parking.backend.Repository.EmployeeRepository;
+import com.parking.backend.Utils.ValidateEmployee;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class EmployeeService {
@@ -103,6 +100,7 @@ public class EmployeeService {
             existingEmployee.setRoleUser(employee.getRoleUser());
             existingEmployee.setEmail(employee.getEmail());
             existingEmployee.setPassword(passwordEncoder.encode(employee.getPassword()));
+            existingEmployee.setBio(employee.getBio());
 
             return this.employeeRepository.save(existingEmployee);
         } catch (CustomException e) {

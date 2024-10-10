@@ -7,7 +7,7 @@ import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import useHookAuthContext from "@/context/auth/useHookAuthContext";
+import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
 import { useRouter } from "next/navigation";
 //===============REACT-ICONS===================
 import {
@@ -182,16 +182,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   {group.name}
                 </h3>
 
-                <ul className="mb-6 flex flex-col gap-1.5">
+                <div className="mb-6 flex flex-col gap-1.5">
                   {group.menuItems.map((menuItem, menuIndex) => (
-                    <li key={menuIndex}>
+                    <div key={menuIndex} className="list-none">
                       {menuItem.label === "Cerrar Sesion" ? (
                         <button
                           onClick={logoutAndRedirect}
-                          className={`flex items-center gap-1 w-full  rounded-sm px-4 py-2.5 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-skyDark group relative dark:hover:bg-meta-4`}
+                          className={`group relative flex w-full  items-center gap-1 rounded-sm px-3 py-2 font-medium text-bodydark1  duration-300 ease-in-out hover:bg-skyDark dark:hover:bg-meta-4  `}
                         >
-                         <p> {menuItem.icon}</p>
-                          <p className="ml-1 text-white py-0">{menuItem.label}</p>
+                          <p className=""> {menuItem.icon}</p>
+                          <p className="ml-1 py-0 text-white hover:text-primary">
+                            {menuItem.label}
+                          </p>
                         </button>
                       ) : (
                         <>
@@ -202,9 +204,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </>
                       )}
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             ))}
           </nav>
@@ -216,4 +218,3 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 };
 
 export default Sidebar;
-

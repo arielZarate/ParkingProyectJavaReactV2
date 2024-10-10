@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import useHookAuthContext from "@/context/auth/useHookAuthContext";
+import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
 import handleServiceError from "@/utils/handleServiceError";
 
 interface LoginType {
@@ -36,8 +36,7 @@ const SignInForm: React.FC = () => {
         password: data.password,
       });
 
-
-     // console.log(user)
+      // console.log(user)
       if (user) {
         alert("inicio de session con exito!!");
         setTimeout(() => {

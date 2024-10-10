@@ -1,10 +1,9 @@
 package com.parking.backend.Controllers;
 
-
 import com.parking.backend.Dto.RateDto;
-import com.parking.backend.Exceptions.CustomException;
+
 import com.parking.backend.Models.Rate;
-import com.parking.backend.Repository.RateRepository;
+
 import com.parking.backend.Enum.TYPE_VEHICLE;
 import com.parking.backend.Services.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +19,14 @@ import java.util.Optional;
 @RequestMapping("/api/rates")
 public class RateController {
 
-
     @Autowired
     private RateService rateService;
-
 
     // Crear o actualizar una tarifa
     @PostMapping
     public ResponseEntity<List<RateDto>> createOrUpdateRate(@RequestBody List<RateDto> ratesDto) {
 
-        //convertir RateDto a Rate
+        // convertir RateDto a Rate
         List<Rate> rates = new ArrayList<>();
         for (RateDto rateDto : ratesDto) {
             Rate rate = rateDto.toRate();
@@ -38,11 +35,10 @@ public class RateController {
         // Guardar o actualizar tarifas
         List<Rate> savedRate = this.rateService.saveOrUpdateRate(rates);
 
+        List<RateDto> savedRatesDto = new ArrayList<>();
+        for (Rate rate : savedRate) {
 
-        List<RateDto> savedRatesDto=new ArrayList<>();
-        for(Rate rate :savedRate){
-
-            RateDto rateDto=RateDto.fromRate(rate);
+            RateDto rateDto = RateDto.fromRate(rate);
             savedRatesDto.add(rateDto);
         }
 
@@ -54,9 +50,9 @@ public class RateController {
     public ResponseEntity<?> getRateById(@PathVariable Long id) {
         Optional<Rate> rate = rateService.findById(id);
         if (rate.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarifa por id "+id+ " no encontrada");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarifa por id " + id + " no encontrada");
         }
-        RateDto rateDto=RateDto.fromRate(rate.get());
+        RateDto rateDto = RateDto.fromRate(rate.get());
         return ResponseEntity.status(HttpStatus.OK).body(rateDto);
 
     }
@@ -87,12 +83,11 @@ public class RateController {
     // Eliminar una tarifa por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRateById(@PathVariable Long id) {
-     //el service me devuelve true/false
-        boolean rateDeleted=  this.rateService.deleteById(id);
-        if(!rateDeleted)
-        {
+        // el service me devuelve true/false
+        boolean rateDeleted = this.rateService.deleteById(id);
+        if (!rateDeleted) {
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarifa con id "+ id +" no encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tarifa con id " + id + " no encontrado.");
         }
         return ResponseEntity.ok().body("Tarifa Eliminada correctamente");
     }

@@ -63,6 +63,7 @@ public class AuthService {
                 emplo.setPassword(passwordEncoder.encode(employee.getPassword()));
                 // ===================================
                 emplo.setRoleUser(employee.getRoleUser());
+                emplo.setBio(employee.getBio());
 
                 // guardamos los datos
                 return this.employeeRepository.save(emplo);
