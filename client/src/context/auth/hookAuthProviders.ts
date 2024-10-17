@@ -88,20 +88,6 @@ const HookAuthProviders = () => {
     }
   }, [router, user]);
 
-  /*
-  const handleLogout = () => {
-   // showAlert({title: "USER SESION",type:SweetType.INFO, text:"Se ha cerrado sesion con exito!",time:2000})
-   showAlert({title:"USER LOGIN",text:"ha cerrado session",position:SweetPosition.CENTER , time:2500})
-   
-    setUser(null); // Limpiar el estado del usuario
-    localStorage.removeItem("token"); // Limpiar el token de sessionStorage
-    cachedDecodedToken = null; // Limpiar la caché del decodedToken
-    setStatus(AuthStatus.UNAUTHENTICATED);
-     
-     // router.push("/")
-  
-  };*/
-
   const handleLogout = () => {
     // Mostrar el mensaje antes de realizar cualquier acción
     showAlert({

@@ -12,7 +12,7 @@ import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
 import ROLE from "@/enum/roleEmployee";
 const ProfileForm = () => {
   const { getDecodedToken } = useHookAuthContext();
-  const { id } = getDecodedToken();
+  const decodeToken = getDecodedToken();
 
   const [userProfile, setUserProfile] = useState({
     fullName: "",
@@ -30,8 +30,8 @@ const ProfileForm = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      findEmployeeById(id)
+    if (decodeToken) {
+      findEmployeeById(decodeToken.id)
         .then((user) => {
           if (user) {
             setUserProfile(user);
@@ -41,7 +41,7 @@ const ProfileForm = () => {
           console.log(err);
         });
     }
-  }, [id]);
+  }, [decodeToken]);
 
   return (
     <>

@@ -17,10 +17,12 @@ const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { handleLogout, getDecodedToken } = useHookAuthContext();
   let decodeToken = getDecodedToken();
-  const id=null
+ 
+
+  /** const id=null
   if(decodeToken){
     const id=decodeToken.id;
-  } 
+  }  */
 
 
   const [userProfile, setUserProfile] = useState({
@@ -35,8 +37,8 @@ const DropdownUser = () => {
 
   //se carga automaticamente cuando se carga el componente
   useEffect(() => {
-    if (id) {
-      findEmployeeById(id)
+    if (decodeToken) {
+      findEmployeeById(decodeToken.id)
         .then((user) => {
           if (user) {
             setUserProfile(user);
@@ -46,7 +48,7 @@ const DropdownUser = () => {
           console.log(err);
         });
     }
-  }, [id]);
+  }, [decodeToken]);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
