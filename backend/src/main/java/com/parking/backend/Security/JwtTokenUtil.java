@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.crypto.SecretKey;
-//import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -15,11 +18,11 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenUtil implements Serializable {
     
-   // @Value("${spring.jwt.secret-key}")
-    private  String SECRET_KEY= "bmVhcmVycmFpbmZvcndhcmRmYWNpbmdzdW5saWdodHNob3dhbnl0aGluZ2RvemVuZGk="; // Cambia esto por una clave más segura
+    @Value("${spring.jwt.secret-key}")
+    private  String SECRET_KEY; // Cambia esto por una clave más segura
    
-    //@Value("${spring.jwt.expiration-time}")
-    private  long EXPIRATION_TIME = 1000 * 60 * 60 * 9; // 9 hora en milisegundos
+    @Value("${spring.jwt.expiration-time}")
+    private  long EXPIRATION_TIME ; //1000 * 60 * 60 * 9; // 9 hora en milisegundos
 
     // Generar el token JWT
     public String generateToken(Long id, String email, String role) {

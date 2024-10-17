@@ -11,6 +11,7 @@ import validateLicencePlate from "@/utils/validateLicencePlateEntry";
 import { useRouter } from "next/navigation";
 import handlerErrorToast from "../ToastMessage/HandleErrorToast";
 import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
+import ToastType from "../ToastMessage/enumToast";
 
 const EntryVehicleForm = () => {
   //useState
@@ -42,7 +43,7 @@ const EntryVehicleForm = () => {
       if (licencePlateError) {
         setToast({
           message: licencePlateError,
-          type: "error",
+          type:ToastType.ERROR,
         });
         return;
       }
@@ -53,7 +54,7 @@ const EntryVehicleForm = () => {
       const res = await postParkings(id, data);
 
       if (res != undefined || res != null) {
-        setToast({ message: "Parking creado con éxito", type: "success" });
+        setToast({ message: "Parking creado con éxito", type: ToastType.SUCCESS });
       }
 
       setTimeout(() => {

@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CiCamera } from "react-icons/ci";
-import profileImg from "/public/images/user/user-06.png";
+import profileUser from "../../../public/images/user/user.png";
+import profileAdmin from "../../../public/images/user/admin.jpg";
 import coverImg from "/public/images/cover/cover-01.png";
 import { findEmployeeById } from "@/services/employeeService";
 import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
@@ -24,7 +25,7 @@ const ProfileForm = () => {
   //console.log(id);
 
   const imageStatic = {
-    profileImage: profileImg,
+    profileImage: userProfile.roleUser===ROLE.ROLE_ADMIN?profileAdmin:profileUser,
     coverImage: coverImg,
   };
 
@@ -49,7 +50,7 @@ const ProfileForm = () => {
           <Image
             src={imageStatic.coverImage}
             alt="profile cover"
-            className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
+            className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center "
             width={970}
             height={260}
           />
@@ -77,6 +78,7 @@ const ProfileForm = () => {
                 width={140}
                 height={140}
                 alt="profile"
+                className="rounded-full"
               />
               <label
                 htmlFor="profile"

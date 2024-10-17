@@ -1,12 +1,52 @@
-"use client"
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
+import { findEmployeeById } from "@/services/employeeService";
+import ROLE from "@/enum/roleEmployee";
+
+
+//NOTA:imagenes staticas para el proyecto=======no implementare cloudinary :(=== )
+import user from "../../../public/images/user/user.png";
+import admin from "../../../public/images/user/admin.jpg";
+//=================================================================================
+//==============COMPONENTE USER=================0
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const {handleLogout}=useHookAuthContext(); 
+  const { handleLogout, getDecodedToken } = useHookAuthContext();
+  let decodeToken = getDecodedToken();
+  const id=null
+  if(decodeToken){
+    const id=decodeToken.id;
+  } 
+
+
+  const [userProfile, setUserProfile] = useState({
+    fullName: "",
+    dni: "",
+    phoneNumber: "",
+    roleUser: "",
+    email: "",
+    bio: "",
+  });
+  //console.log(id);
+
+  //se carga automaticamente cuando se carga el componente
+  useEffect(() => {
+    if (id) {
+      findEmployeeById(id)
+        .then((user) => {
+          if (user) {
+            setUserProfile(user);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [id]);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -18,21 +58,24 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Ariel Zarate
+            {userProfile.fullName}
           </span>
-          <span className="block text-xs">Admin</span>
+          <span className="block text-xs font-semibold text-primary">
+            {userProfile.roleUser === ROLE.ROLE_ADMIN ? "Admin" : "Empleado"}
+          </span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
+        <span className="h-12 w-12 ">
           <Image
             width={112}
             height={112}
-            src={"/images/user/user-12.png"}
+            src={userProfile.roleUser===ROLE.ROLE_ADMIN?admin:user}
             style={{
               width: "auto",
               height: "auto",
             }}
             alt="User"
+            className="rounded-full"
           />
         </span>
 
@@ -111,9 +154,9 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button 
-          onClick={()=>handleLogout()}
-          className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+          <button
+            onClick={() => handleLogout()}
+            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           >
             <svg
               className="fill-current"
@@ -132,8 +175,6 @@ const DropdownUser = () => {
                 fill=""
               />
             </svg>
-
-            
             Cerrar Sesion
           </button>
         </div>

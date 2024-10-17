@@ -1,9 +1,9 @@
 // components/ToastMessage.tsx
 import React, { useState, useEffect } from "react";
-
+import ToastType from "./enumToast";
 interface ToastMessageProps {
   message: string;
-  type: "success" | "error" | "warning" | "info";
+  type: ToastType;
   onClose: () => void;
 }
 

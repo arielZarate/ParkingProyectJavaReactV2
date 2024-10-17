@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { useHookAuthContext } from "@/context/auth/useHookAuthContext";
 import handleServiceError from "@/utils/handleServiceError";
 
+import useSweetAlertHook from "../SweetAlert/useSweet";
+
 interface LoginType {
   email: string;
   password: string;
@@ -17,6 +19,7 @@ interface LoginType {
 const SignInForm: React.FC = () => {
   const { handleLogin } = useHookAuthContext();
 
+  const { showAlert, SweetPosition, SweetType } = useSweetAlertHook();
   const {
     register,
     handleSubmit,
@@ -36,27 +39,39 @@ const SignInForm: React.FC = () => {
         password: data.password,
       });
 
-      // console.log(user)
       if (user) {
-        alert("inicio de session con exito!!");
+        // Alerta de inicio de sesión exitoso
+
+        showAlert({
+          title: "Login",
+          text: "Inicio de Sesion exitoso!",
+        });
+      }
         setTimeout(() => {
           router.push("/home");
-        }, 1000);
-        return user;
-      } else {
-        console.log("Usuario o contraseña incorrectos"); // Muestra un mensaje
-      }
+        }, 2000);
+       
+      
     } catch (error) {
-      console.error(error);
       handleServiceError(error);
     }
   };
 
   return (
     <>
+      {/**  <div>
+        {toast && (
+          <ToastMessage
+            message={toast.message}
+            type={toast.type}
+            onClose={handleCloseToast}
+          />
+        )}
+      </div> */}
+
       <div className="mx-auto  max-w-6xl rounded-sm border border-stroke bg-white  shadow-default dark:border-strokedark dark:bg-boxdark md:my-10">
         <div className="flex flex-wrap items-center">
-          <div className="hidden h-full  bg-slate-800  md:w-1/2  xl:block xl:w-1/2  ">
+          <div className="hidden h-full  bg-slate-800  sm:w-3/12   md:w-1/2  xl:block xl:w-1/2  ">
             <div className="px-26 py-17.5 text-center">
               <h1 className=" text-5xl font-semibold  hover:text-secondary">
                 Sistema de Parking
@@ -81,8 +96,8 @@ const SignInForm: React.FC = () => {
             </div>
           </div>
 
-          <div className="mx-auto border-stroke dark:border-strokedark  sm:w-9/12 xl:w-1/2 xl:border-l-2">
-            <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+          <div className="mx-auto border-stroke dark:border-strokedark  sm:w-7/12 xl:w-1/2 xl:border-l-2">
+            <div className="w-full p-4 sm:m-12.5 sm:p-12.5 xl:p-17.5">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Inicio de Sesión
               </h2>

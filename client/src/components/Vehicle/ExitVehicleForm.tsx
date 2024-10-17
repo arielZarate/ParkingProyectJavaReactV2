@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import IFinalizeParkingProp from "@/interfaces/IFinalizeParkingProp";
 import { postFinalizeParkings } from "@/services/parkingService";
 import handlerErrorToast from "@/components/ToastMessage/HandleErrorToast";
-
+import ToastType from "../ToastMessage/enumToast";
 const ExitVehicleForm = () => {
   const [typeVehicle, setTypeVehicle] = useState<string>("");
   const router = useRouter(); // Inicializar useRoute
@@ -34,7 +34,7 @@ const ExitVehicleForm = () => {
       if (licencePlateError) {
         setToast({
           message: licencePlateError,
-          type: "error",
+          type: ToastType.ERROR,
         });
         return;
       }
@@ -43,7 +43,10 @@ const ExitVehicleForm = () => {
       const res = await postFinalizeParkings(data.licencePlate);
 
       if (res != undefined || res != null) {
-        setToast({ message: "Parking Finalizado con éxito", type: "info" });
+        setToast({
+          message: "Parking Finalizado con éxito",
+          type: ToastType.INFO,
+        });
       }
 
       setTimeout(() => {
