@@ -114,13 +114,13 @@ const menuGroups = [
       {
         icon: <FaUserShield size={20} />,
         label: "Administrador",
-        route: "#",
-        children: [
+        route: "/dashboard",
+        /**   children: [
           { label: "Gestionar Tarifas", route: "#" },
           //una tabla para gestionar empleados
           { label: "Gestionar Empleados", route: "/auth/signup" },
           { label: "Gestionar Parkings", route: "#" },
-        ],
+        ], */
       },
       {
         icon: <MdLogin size={20} color="white" />,
